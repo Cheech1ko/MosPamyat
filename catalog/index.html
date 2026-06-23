@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог памятников и оград — ГранитМосква</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ===== ОБЩИЕ СТИЛИ КАТАЛОГА ===== */
+        .catalog-page {
+            padding: 40px 20px 70px;
+            background: var(--gray-bg);
+            min-height: 80vh;
+        }
+
+        .catalog-header {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .catalog-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .catalog-header .count {
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        .catalog-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== БОКОВОЙ ФИЛЬТР ===== */
+        .catalog-filters {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .catalog-filters h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .filter-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-section h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            padding: 6px 12px;
+            text-align: left;
+            font-size: 14px;
+            color: var(--text);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background .2s, color .2s;
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-btn:hover {
+            background: var(--gray-bg);
+        }
+
+        .filter-btn.active {
+            background: var(--gold);
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .filter-btn .count-badge {
+            background: var(--gray-bg);
+            padding: 0 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .filter-btn.active .count-badge {
+            background: rgba(0,0,0,0.1);
+            color: var(--dark);
+        }
+
+        .filter-range {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 6px;
+        }
+
+        .filter-range input {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .filter-range input:focus {
+            border-color: var(--gold);
+            outline: none;
+        }
+
+        .filter-range button {
+            padding: 6px 14px;
+            background: var(--gold);
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--dark);
+            white-space: nowrap;
+        }
+
+        .filter-range button:hover {
+            background: var(--gold-light);
+        }
+
+        /* ===== СОРТИРОВКА ===== */
+        .catalog-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .catalog-toolbar .sort {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .catalog-toolbar .sort label {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .catalog-toolbar .sort select {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Open Sans', sans-serif;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .catalog-toolbar .view {
+            display: flex;
+            gap: 4px;
+        }
+
+        .catalog-toolbar .view button {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all .2s;
+        }
+
+        .catalog-toolbar .view button.active {
+            border-color: var(--gold);
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        .catalog-toolbar .view button:hover:not(.active) {
+            background: var(--gray-bg);
+        }
+
+        /* ===== СЕТКА ТОВАРОВ ===== */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .catalog-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .catalog-item {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+            transition: transform .2s, box-shadow .2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .catalog-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+        }
+
+        .catalog-item-img {
+            height: 180px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .catalog-item-img i {
+            font-size: 56px;
+            color: rgba(255,255,255,0.1);
+        }
+
+        .catalog-item-img .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--gold);
+            color: var(--dark);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .catalog-item-body {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .catalog-item-body h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .catalog-item-body .dims {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .catalog-item-body .price {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .catalog-item-body .price span {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+
+        .catalog-item-body .item-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .catalog-item-body .item-actions .btn-card {
+            flex: 1;
+            text-align: center;
+            padding: 8px 10px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            transition: background .2s;
+            text-decoration: none;
+        }
+
+        .catalog-item-body .item-actions .btn-card i {
+            font-size: 12px;
+        }
+
+        .btn-telegram {
+            background: #0088cc;
+            color: #fff;
+        }
+
+        .btn-telegram:hover {
+            background: #006699;
+            color: #fff;
+        }
+
+        .btn-max {
+            background: #6f42c1;
+            color: #fff;
+        }
+
+        .btn-max:hover {
+            background: #5530a3;
+            color: #fff;
+        }
+
+        /* ===== ПАГИНАЦИЯ ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background .2s;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .pagination button.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--dark);
+        }
+
+        .pagination button:hover:not(.active) {
+            background: var(--gray-bg);
+        }
+
+        .catalog-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .catalog-empty i {
+            font-size: 48px;
+            color: var(--border);
+            margin-bottom: 16px;
+        }
+
+        /* ===== ОЧИСТКА ФИЛЬТРОВ ===== */
+        .filter-clear {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 4px 0;
+            margin-top: 8px;
+        }
+
+        .filter-clear:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 992px) {
+            .catalog-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .catalog-filters {
+                position: static;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 16px;
+                padding: 16px;
+            }
+
+            .catalog-filters h3 {
+                grid-column: 1 / -1;
+                margin-bottom: 0;
+            }
+
+            .filter-section {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .catalog-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .catalog-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .catalog-toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .catalog-filters {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+    /* Шапка каталога */
+    .catalog-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .catalog-header h1 {
+        font-size: 22px;
+    }
+
+    /* Фильтры — в виде горизонтальной прокрутки */
+    .catalog-filters {
+        position: static;
+        padding: 12px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .catalog-filters h3 {
+        font-size: 14px;
+        margin-bottom: 4px;
+        flex-shrink: 0;
+    }
+
+    .filter-section {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+        flex-shrink: 0;
+        min-width: 120px;
+    }
+
+    .filter-section h4 {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+
+    .filter-group {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 4px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-btn {
+        font-size: 12px;
+        padding: 4px 10px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .filter-btn .count-badge {
+        font-size: 10px;
+        padding: 0 6px;
+    }
+
+    .filter-range {
+        flex-wrap: nowrap;
+        gap: 4px;
+    }
+
+    .filter-range input {
+        width: 60px;
+        padding: 4px 6px;
+        font-size: 12px;
+    }
+
+    .filter-range button {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+
+    .filter-clear {
+        font-size: 12px;
+        flex-shrink: 0;
+    }
+
+    /* Панель сортировки */
+    .catalog-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .catalog-toolbar .sort {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .catalog-toolbar .sort select {
+        flex: 1;
+        max-width: 160px;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+
+    .catalog-toolbar .view {
+        justify-content: flex-end;
+    }
+
+    /* Сетка товаров — 2 колонки на телефоне */
+    .catalog-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .catalog-grid.list-view {
+        grid-template-columns: 1fr;
+    }
+
+    .catalog-item {
+        border-radius: 8px;
+    }
+
+    .catalog-item-img {
+        height: 120px;
+    }
+
+    .catalog-item-img i {
+        font-size: 36px;
+    }
+
+    .catalog-item-body {
+        padding: 10px 12px;
+    }
+
+    .catalog-item-body h3 {
+        font-size: 13px;
+        line-height: 1.2;
+        margin-bottom: 2px;
+    }
+
+    .catalog-item-body .dims {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+
+    .catalog-item-body .price {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+
+    .catalog-item-body .price span {
+        font-size: 11px;
+    }
+
+    .catalog-item-body .item-actions {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .catalog-item-body .item-actions .btn-card {
+        font-size: 10px;
+        padding: 4px 6px;
+        flex: 1;
+        min-width: 30px;
+    }
+
+    .catalog-item-body .item-actions .btn-card i {
+        font-size: 10px;
+    }
+
+    .catalog-item-body .item-actions .btn-card span {
+        display: none;
+    }
+
+    /* Пагинация */
+    .pagination {
+        gap: 4px;
+        margin-top: 16px;
+    }
+
+    .pagination button {
+        padding: 6px 12px;
+        font-size: 13px;
+        min-width: 36px;
+    }
+
+    .catalog-count {
+        font-size: 13px;
+    }
+
+    .catalog-layout {
+        gap: 16px;
+        padding: 0 4px;
+    }
+}
+
+/* Очень маленькие телефоны (до 480px) */
+@media (max-width: 480px) {
+    .catalog-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .catalog-item-img {
+        height: 100px;
+    }
+
+    .catalog-item-img i {
+        font-size: 28px;
+    }
+
+    .catalog-item-body {
+        padding: 8px 8px 10px;
+    }
+
+    .catalog-item-body h3 {
+        font-size: 12px;
+    }
+
+    .catalog-item-body .dims {
+        font-size: 10px;
+    }
+
+    .catalog-item-body .price {
+        font-size: 14px;
+    }
+
+    .catalog-item-body .price span {
+        font-size: 10px;
+    }
+
+    .catalog-item-body .item-actions .btn-card {
+        font-size: 9px;
+        padding: 3px 4px;
+    }
+
+    .catalog-filters {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+
+    .filter-section {
+        min-width: 80px;
+    }
+
+    .filter-btn {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+
+    .filter-range input {
+        width: 50px;
+        font-size: 11px;
+        padding: 3px 4px;
+    }
+
+    .filter-range button {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    .catalog-header h1 {
+        font-size: 18px;
+    }
+
+    .catalog-toolbar .sort select {
+        font-size: 12px;
+        padding: 4px 8px;
+        max-width: 120px;
+    }
+}
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <a href="../index.html" class="logo">
+            <div class="logo-icon">Г</div>
+            <div class="logo-text">
+                <div class="logo-name">ГранитМосква</div>
+                <div class="logo-sub">Памятники и благоустройство</div>
+            </div>
+        </a>
+        <nav>
+            <a href="../catalog/" class="nav-link active">Каталог</a>
+            <a href="../index.html#callback" class="nav-link">Выезд менеджера</a>
+            <a href="../index.html#about" class="nav-link">О компании</a>
+            <a href="../index.html#gallery" class="nav-link">Работы</a>
+            <a href="../index.html#faq" class="nav-link">FAQ</a>
+            <a href="../index.html#contact" class="nav-link">Контакты</a>
+        </nav>
+        <a href="https://t.me/ваш_телеграм" target="_blank" class="header-telegram" style="display:inline-flex;align-items:center;gap:6px;background:#0088cc;color:#fff;padding:8px 14px;border-radius:var(--radius);font-weight:600;font-size:14px;transition:background .2s;font-family:'Montserrat',sans-serif;margin-left:8px;">
+            <i class="fab fa-telegram-plane"></i> Написать
+        </a>
+        <a href="../index.html#contact" class="header-cta">Оставить заявку</a>
+        <button class="burger" onclick="toggleMenu()" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+        <a href="../catalog/" onclick="toggleMenu()">Каталог</a>
+        <a href="../index.html#callback" onclick="toggleMenu()">Выезд менеджера</a>
+        <a href="../index.html#about" onclick="toggleMenu()">О компании</a>
+        <a href="../index.html#gallery" onclick="toggleMenu()">Галерея работ</a>
+        <a href="../index.html#faq" onclick="toggleMenu()">FAQ</a>
+        <a href="../index.html#contact" onclick="toggleMenu()">Контакты</a>
+        <a href="https://t.me/ваш_телеграм" target="_blank" style="color: var(--gold-light); margin-top:8px;">
+            <i class="fab fa-telegram-plane" style="margin-right:8px;"></i> Написать в Telegram
+        </a>
+        <a href="tel:+78412000000" style="color: var(--gold-light); margin-top:4px;">
+            <i class="fas fa-phone" style="margin-right:8px;"></i> +7 (8412) 00-00-00
+        </a>
+    </div>
+</header>
+
+<section class="catalog-page">
+    <div class="catalog-header">
+        <h1>Каталог товаров</h1>
+        <span class="count" id="totalCount">Загрузка...</span>
+    </div>
+
+    <div class="catalog-layout">
+        <!-- ФИЛЬТРЫ -->
+        <aside class="catalog-filters" id="filters">
+            <h3><i class="fas fa-filter" style="margin-right:8px;"></i>Фильтры</h3>
+
+            <div class="filter-section">
+                <h4>Категория</h4>
+                <div class="filter-group" id="categoryFilters">
+                    <button class="filter-btn active" data-filter="category" data-value="all">Все товары <span class="count-badge" id="countAll">0</span></button>
+                    <button class="filter-btn" data-filter="category" data-value="vertical">Вертикальные <span class="count-badge" id="countVertical">0</span></button>
+                    <button class="filter-btn" data-filter="category" data-value="horizontal">Горизонтальные <span class="count-badge" id="countHorizontal">0</span></button>
+                    <button class="filter-btn" data-filter="category" data-value="double">Двойные <span class="count-badge" id="countDouble">0</span></button>
+                    <button class="filter-btn" data-filter="category" data-value="marble">Мраморные <span class="count-badge" id="countMarble">0</span></button>
+                    <button class="filter-btn" data-filter="category" data-value="fence">Ограды <span class="count-badge" id="countFence">0</span></button>
+                    <button class="filter-btn" data-filter="category" data-value="socle">Цоколи <span class="count-badge" id="countSocle">0</span></button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h4>Цена</h4>
+                <div class="filter-range">
+                    <input type="number" id="priceMin" placeholder="от" min="0" style="width:80px;">
+                    <input type="number" id="priceMax" placeholder="до" min="0" style="width:80px;">
+                    <button onclick="applyPriceFilter()">OK</button>
+                </div>
+            </div>
+
+            <button class="filter-clear" onclick="clearAllFilters()">Сбросить все фильтры</button>
+        </aside>
+
+        <!-- ТОВАРЫ -->
+        <div class="catalog-products">
+            <div class="catalog-toolbar">
+                <div class="sort">
+                    <label for="sortSelect">Сортировать:</label>
+                    <select id="sortSelect" onchange="applySort()">
+                        <option value="default">По умолчанию</option>
+                        <option value="price_asc">Сначала дешёвые</option>
+                        <option value="price_desc">Сначала дорогие</option>
+                        <option value="name_asc">По названию (А–Я)</option>
+                    </select>
+                </div>
+                <div class="view">
+                    <button class="active" onclick="setView('grid')" title="Сетка"><i class="fas fa-th"></i></button>
+                    <button onclick="setView('list')" title="Список"><i class="fas fa-list"></i></button>
+                </div>
+            </div>
+
+            <div class="catalog-grid" id="productGrid"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="logo" style="margin-bottom:14px">
+                <div class="logo-icon">Г</div>
+                <div class="logo-text">
+                    <div class="logo-name">ГранитМосква</div>
+                </div>
+            </div>
+            <p>Проектирование, изготовление и установка памятников любой сложности в Пензе и Пензенской области с 2009 года.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Услуги</h4>
+            <ul>
+                <li><a href="../catalog/?category=vertical">Вертикальные</a></li>
+                <li><a href="../catalog/?category=horizontal">Горизонтальные</a></li>
+                <li><a href="../catalog/?category=double">Двойные</a></li>
+                <li><a href="../catalog/?category=marble">Мраморные</a></li>
+                <li><a href="../catalog/?category=fence">Ограды</a></li>
+                <li><a href="../catalog/?category=socle">Цоколи</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Контакты</h4>
+            <ul>
+                <li><a href="tel:+78412000000">+7 (8412) 00-00-00</a></li>
+                <li><a href="#" onclick="event.preventDefault(); openEmailModal();">info@granitpenza.ru</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom container">
+        <span>ГранитМосква © 2009–2026</span>
+    </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+    // ============================================
+    // КАТАЛОГ С ФИЛЬТРАМИ И СОРТИРОВКОЙ
+    // ============================================
+
+    var currentCategory = 'all';
+    var currentPage = 1;
+    var ITEMS_PER_PAGE = 20;
+    var allProducts = [];
+    var filteredProducts = [];
+    var currentView = 'grid';
+    var priceMin = 0;
+    var priceMax = Infinity;
+
+    function initCatalog() {
+        var grid = document.getElementById('productGrid');
+        var count = document.getElementById('totalCount');
+        var pagination = document.getElementById('pagination');
+
+        if (!grid || !count || !pagination) return;
+
+        loadProducts(function(products) {
+            allProducts = products;
+            applyFilters();
+        });
+    }
+
+    function applyFilters() {
+        // Фильтр по категории
+        var catFiltered = allProducts;
+        if (currentCategory !== 'all') {
+            catFiltered = allProducts.filter(function(p) {
+                return p.category === currentCategory;
+            });
+        }
+
+        // Фильтр по цене
+        var priceFiltered = catFiltered.filter(function(p) {
+            var price = p.price || 0;
+            return price >= priceMin && price <= priceMax;
+        });
+
+        filteredProducts = priceFiltered;
+
+        // Обновляем счётчики в фильтрах
+        updateCounters();
+
+        // Применяем сортировку
+        applySort();
+
+        // Обновляем отображение
+        currentPage = 1;
+        renderCatalog();
+    }
+
+    function updateCounters() {
+        var categories = ['all', 'vertical', 'horizontal', 'double', 'marble', 'fence', 'socle'];
+        categories.forEach(function(cat) {
+            var count = allProducts.filter(function(p) {
+                if (cat === 'all') return true;
+                return p.category === cat;
+            }).length;
+            var badge = document.getElementById('count' + cat.charAt(0).toUpperCase() + cat.slice(1));
+            if (badge) {
+                badge.textContent = count;
+            }
+        });
+    }
+
+    function renderCatalog() {
+    var grid = document.getElementById('productGrid');
+    var count = document.getElementById('totalCount');
+    var pagination = document.getElementById('pagination');
+
+    if (!grid) return;
+
+    var total = filteredProducts.length;
+    count.textContent = 'Найдено ' + total + ' товаров';
+
+    var totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+    if (currentPage > totalPages) currentPage = 1;
+    var start = (currentPage - 1) * ITEMS_PER_PAGE;
+    var paginated = filteredProducts.slice(start, start + ITEMS_PER_PAGE);
+
+    if (paginated.length === 0) {
+        grid.innerHTML = `
+            <div class="catalog-empty">
+                <i class="fas fa-box-open"></i>
+                <p>По вашим фильтрам ничего не найдено</p>
+                <button onclick="clearAllFilters()" style="margin-top:12px; padding:8px 20px; background:var(--gold); border:none; border-radius:6px; font-weight:700; cursor:pointer;">Сбросить фильтры</button>
+            </div>
+        `;
+    } else {
+        var viewClass = currentView === 'list' ? 'list-view' : '';
+        grid.className = 'catalog-grid ' + viewClass;
+
+        grid.innerHTML = paginated.map(function(p) {
+            var badgeHtml = p.badge ? '<span class="badge">' + p.badge + '</span>' : '';
+
+            var firstSize = '';
+            if (p.sizes && p.sizes.length > 0) {
+                if (typeof p.sizes[0] === 'object' && p.sizes[0] !== null) {
+                    firstSize = p.sizes[0].label || '';
+                } else {
+                    firstSize = p.sizes[0];
+                }
+            }
+            var dimsHtml = firstSize ? '<div class="dims">' + firstSize + '</div>' : '';
+
+            return `
+                <div class="catalog-item" onclick="window.location.href='../product/?id=${p.id}'">
+                    <div class="catalog-item-img">
+                        <i class="fas fa-${p.imageIcon || 'mountain'}"></i>
+                        ${badgeHtml}
+                    </div>
+                    <div class="catalog-item-body">
+                        <h3>${p.name}</h3>
+                        ${dimsHtml}
+
+                        <div class="price">${p.price.toLocaleString('ru-RU')} <span>₽</span></div>
+                        <div class="item-actions">
+                            <a href="../product/?id=${p.id}" class="btn-card" style="background:var(--dark);color:#fff;" onclick="event.stopPropagation();">
+                                <i class="fas fa-calculator"></i> Рассчитать
+                            </a>
+                            <a href="https://t.me/ваш_телеграм" target="_blank" class="btn-card btn-telegram" onclick="event.stopPropagation();">
+                                <i class="fab fa-telegram-plane"></i>
+                            </a>
+                            <a href="https://ваша-ссылка-на-max" target="_blank" class="btn-card btn-max" onclick="event.stopPropagation();">
+                                <i class="fas fa-comment"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+    }
+
+    var pagHtml = '';
+    for (var i = 1; i <= totalPages; i++) {
+        pagHtml += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goToPage(' + i + ')">' + i + '</button>';
+    }
+    pagination.innerHTML = pagHtml;
+}
+
+    function goToPage(page) {
+        currentPage = page;
+        renderCatalog();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function applySort() {
+        var sort = document.getElementById('sortSelect')?.value || 'default';
+
+        switch (sort) {
+            case 'price_asc':
+                filteredProducts.sort(function(a, b) { return (a.price || 0) - (b.price || 0); });
+                break;
+            case 'price_desc':
+                filteredProducts.sort(function(a, b) { return (b.price || 0) - (a.price || 0); });
+                break;
+            case 'name_asc':
+                filteredProducts.sort(function(a, b) { return a.name.localeCompare(b.name); });
+                break;
+            default:
+                // По умолчанию — как в JSON
+                break;
+        }
+
+        renderCatalog();
+    }
+
+    function setView(view) {
+        currentView = view;
+        document.querySelectorAll('.view button').forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        if (view === 'grid') {
+            document.querySelector('.view button:first-child')?.classList.add('active');
+        } else {
+            document.querySelector('.view button:last-child')?.classList.add('active');
+        }
+        renderCatalog();
+    }
+
+    function applyPriceFilter() {
+        var minInput = document.getElementById('priceMin');
+        var maxInput = document.getElementById('priceMax');
+
+        priceMin = parseInt(minInput.value) || 0;
+        priceMax = parseInt(maxInput.value) || Infinity;
+
+        applyFilters();
+    }
+
+    function clearAllFilters() {
+        // Сбрасываем категорию
+        currentCategory = 'all';
+        document.querySelectorAll('.filter-btn[data-filter="category"]').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.value === 'all');
+        });
+
+        // Сбрасываем цену
+        document.getElementById('priceMin').value = '';
+        document.getElementById('priceMax').value = '';
+        priceMin = 0;
+        priceMax = Infinity;
+
+        // Сбрасываем сортировку
+        document.getElementById('sortSelect').value = 'default';
+
+        // Обновляем URL
+        var url = new URL(window.location);
+        url.searchParams.delete('category');
+        window.history.pushState({}, '', url);
+
+        applyFilters();
+    }
+
+    // Обработчики фильтров категорий
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.filter-btn[data-filter="category"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var value = this.dataset.value;
+                currentCategory = value;
+
+                document.querySelectorAll('.filter-btn[data-filter="category"]').forEach(function(b) {
+                    b.classList.toggle('active', b.dataset.value === value);
+                });
+
+                // Обновляем URL
+                var url = new URL(window.location);
+                if (value === 'all') {
+                    url.searchParams.delete('category');
+                } else {
+                    url.searchParams.set('category', value);
+                }
+                window.history.pushState({}, '', url);
+
+                applyFilters();
+            });
+        });
+
+        // Обработчик Enter в полях цены
+        document.getElementById('priceMin')?.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') applyPriceFilter();
+        });
+        document.getElementById('priceMax')?.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') applyPriceFilter();
+        });
+
+        // Инициализация
+        var params = new URLSearchParams(window.location.search);
+        var catFromUrl = params.get('category');
+        if (catFromUrl) {
+            currentCategory = catFromUrl;
+            document.querySelectorAll('.filter-btn[data-filter="category"]').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.value === catFromUrl);
+            });
+        }
+
+        initCatalog();
+    });
+</script>
+</body>
+</html>

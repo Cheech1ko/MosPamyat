@@ -1,10 +1,8 @@
-// ===== MOBILE MENU =====
 function toggleMenu() {
     var nav = document.getElementById('mobileNav');
     if (nav) nav.classList.toggle('open');
 }
 
-// ===== MODAL (заявка) =====
 function openModal() {
     var overlay = document.getElementById('modalOverlay');
     if (overlay) {
@@ -12,6 +10,7 @@ function openModal() {
         document.body.style.overflow = 'hidden';
     }
 }
+
 function closeModal() {
     var overlay = document.getElementById('modalOverlay');
     if (overlay) {
@@ -19,15 +18,16 @@ function closeModal() {
         document.body.style.overflow = '';
     }
 }
+
 function closeModalOutside(e) {
     var overlay = document.getElementById('modalOverlay');
     if (e.target === overlay) closeModal();
 }
+
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeModal();
 });
 
-// ===== PHONE MODAL =====
 function openPhoneModal() {
     var overlay = document.getElementById('phoneModalOverlay');
     if (overlay) {
@@ -37,6 +37,7 @@ function openPhoneModal() {
         window.location.href = 'tel:+78412000000';
     }
 }
+
 function closePhoneModal() {
     var overlay = document.getElementById('phoneModalOverlay');
     if (overlay) {
@@ -44,12 +45,12 @@ function closePhoneModal() {
         document.body.style.overflow = '';
     }
 }
+
 function closePhoneModalOutside(e) {
     var overlay = document.getElementById('phoneModalOverlay');
     if (e.target === overlay) closePhoneModal();
 }
 
-// ===== EMAIL MODAL =====
 function openEmailModal() {
     var overlay = document.getElementById('emailModalOverlay');
     if (overlay) {
@@ -57,6 +58,7 @@ function openEmailModal() {
         document.body.style.overflow = 'hidden';
     }
 }
+
 function closeEmailModal() {
     var overlay = document.getElementById('emailModalOverlay');
     if (overlay) {
@@ -64,6 +66,7 @@ function closeEmailModal() {
         document.body.style.overflow = '';
     }
 }
+
 function closeEmailModalOutside(e) {
     var overlay = document.getElementById('emailModalOverlay');
     if (e.target === overlay) closeEmailModal();
@@ -97,7 +100,6 @@ function openGmail() {
     closeEmailModal();
 }
 
-// ===== FAQ =====
 function toggleFaq(btn) {
     var item = btn.parentElement;
     var isOpen = item.classList.contains('open');
@@ -107,105 +109,14 @@ function toggleFaq(btn) {
     if (!isOpen) item.classList.add('open');
 }
 
-// ===== CALCULATOR =====
-var BASE_PRICES = {
-    granite_v: 18000,
-    granite_h: 16000,
-    marble_v: 14000,
-    double: 36000,
-    fence: 12000,
-    socle: 22000
-};
-var MATERIAL_MULT = {
-    gabbro: 1.0,
-    red: 1.35,
-    grey: 1.1,
-    marble: 0.95
-};
-
-function calculate() {
-    var typeEl = document.getElementById('calcType');
-    var matEl = document.getElementById('calcMaterial');
-    var heightEl = document.getElementById('calcHeight');
-    var widthEl = document.getElementById('calcWidth');
-    var resProduct = document.getElementById('resProduct');
-    var resExtra = document.getElementById('resExtra');
-    var resTotal = document.getElementById('resTotal');
-
-    if (!typeEl || !matEl || !heightEl || !widthEl || !resProduct || !resExtra || !resTotal) {
-        return;
-    }
-
-    var type = typeEl.value;
-    var mat = matEl.value;
-    var h = parseInt(heightEl.value) || 120;
-    var w = parseInt(widthEl.value) || 60;
-
-    var baseArea = 120 * 60;
-    var userArea = h * w;
-    var sizeMult = userArea / baseArea;
-
-    var base = BASE_PRICES[type] || 18000;
-    var matMult = MATERIAL_MULT[mat] || 1.0;
-    var productPrice = Math.round(base * matMult * sizeMult / 100) * 100;
-
-    var extra = 0;
-    var chkPortrait = document.getElementById('chkPortrait');
-    var chkText = document.getElementById('chkText');
-    var chkInstall = document.getElementById('chkInstall');
-    var chkDelivery = document.getElementById('chkDelivery');
-
-    if (chkPortrait && chkPortrait.checked) extra += 3500;
-    if (chkText && chkText.checked) extra += 1500;
-    if (chkInstall && chkInstall.checked) extra += 5000;
-    if (chkDelivery && chkDelivery.checked) extra += 2000;
-
-    var fmt = function(n) {
-        return n.toLocaleString('ru-RU') + ' ₽';
-    };
-
-    resProduct.textContent = fmt(productPrice);
-    resExtra.textContent = extra > 0 ? fmt(extra) : '—';
-    resTotal.textContent = fmt(productPrice + extra);
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', calculate);
-} else {
-    calculate();
-}
-
-// ===== CATALOG FILTER =====
-function filterCatalog(cat) {
-    var items = document.querySelectorAll('#itemsGrid .item-card');
-    var hasVisible = false;
-    items.forEach(function(card) {
-        if (card.dataset.cat === cat || cat === 'all') {
-            card.style.display = 'flex';
-            hasVisible = true;
-        } else {
-            card.style.display = 'none';
-        }
-    });
-    if (!hasVisible) {
-        items.forEach(function(c) { c.style.display = 'flex'; });
-    }
-    var grid = document.getElementById('itemsGrid');
-    if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ===== УНИВЕРСАЛЬНАЯ ФОРМА (работает и для основной, и для модалки) =====
-function submitForm(wrapId, successId) {
-    var formWrap = document.getElementById(wrapId);
+function submitForm(formId, successId) {
+    var formWrap = document.getElementById(formId);
     if (!formWrap) {
-        console.error('Форма с id "' + wrapId + '" не найдена');
+        console.error('Форма с id "' + formId + '" не найдена');
         return;
     }
 
-    // Определяем, модалка это или основная форма
-    var isModal = wrapId === 'modalFormWrap';
-
-    // Собираем данные
+    var isModal = formId === 'modalFormWrap';
     var name, phone, interest, comment;
 
     if (isModal) {
@@ -220,7 +131,6 @@ function submitForm(wrapId, successId) {
         comment = document.getElementById('fcomment')?.value?.trim() || 'Без комментария';
     }
 
-    // Валидация
     var errors = [];
 
     if (!name) {
@@ -242,7 +152,6 @@ function submitForm(wrapId, successId) {
         }
     }
 
-    // Проверка чекбокса для основной формы
     if (!isModal) {
         var check = document.getElementById('fcheck');
         if (check && !check.checked) {
@@ -257,14 +166,9 @@ function submitForm(wrapId, successId) {
         return;
     }
 
-    // ОТПРАВКА НА FORMSPREE (ID ПОДСТАВЛЕН)
-    var formId = 'mwvdpbap';
-
-    fetch('https://formspree.io/f/' + formId, {
+    fetch('https://formspree.io/f/mwvdpbap', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             name: name,
             phone: phone,
@@ -278,7 +182,6 @@ function submitForm(wrapId, successId) {
             var success = document.getElementById(successId);
             if (success) {
                 success.style.display = 'block';
-                // Очищаем поля
                 if (isModal) {
                     document.getElementById('mname').value = '';
                     document.getElementById('mphone').value = '';
@@ -300,54 +203,10 @@ function submitForm(wrapId, successId) {
     })
     .catch(function(error) {
         console.error('Ошибка:', error);
-        alert('Ошибка отправки. Проверьте интернет-соединение.');
-    });
-}
-function submitFooterForm() {
-    var name = document.getElementById('ffname')?.value?.trim() || '';
-    var phone = document.getElementById('ffphone')?.value?.trim() || '';
-    var interest = document.getElementById('fftype')?.value || 'Не указано';
-    var comment = document.getElementById('ffcomment')?.value?.trim() || 'Без комментария';
-
-    // Валидация
-    if (!name) {
-        alert('Пожалуйста, введите ваше имя');
-        return;
-    }
-    if (!phone) {
-        alert('Пожалуйста, введите номер телефона');
-        return;
-    }
-    var digits = phone.replace(/\D/g, '');
-    if (digits.length < 10) {
-        alert('Введите полный номер телефона (10-11 цифр)');
-        return;
-    }
-
-    // Отправка
-    fetch('https://formspree.io/f/mwvdpbap', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, interest, comment, source: 'Футер' })
-    })
-    .then(function(response) {
-        if (response.ok) {
-            document.getElementById('footerSuccess').style.display = 'block';
-            document.getElementById('ffname').value = '';
-            document.getElementById('ffphone').value = '';
-            document.getElementById('ffcomment').value = '';
-            setTimeout(function() {
-                document.getElementById('footerSuccess').style.display = 'none';
-            }, 5000);
-        } else {
-            alert('Ошибка отправки. Попробуйте позже.');
-        }
-    })
-    .catch(function(error) {
-        console.error('Ошибка:', error);
         alert('Ошибка отправки. Проверьте интернет.');
     });
 }
+
 function showError(input, message) {
     input.classList.add('error');
     input.style.borderColor = '#d32f2f';
@@ -365,3 +224,307 @@ function showError(input, message) {
         input.parentNode.appendChild(errorDiv);
     }
 }
+
+function sendCallbackRequest() {
+    var name = document.getElementById('cbname')?.value?.trim() || '';
+    var phone = document.getElementById('cbphone')?.value?.trim() || '';
+    var time = document.getElementById('cbtime')?.value?.trim() || 'Не указано';
+
+    if (!name || !phone) {
+        alert('Пожалуйста, заполните имя и телефон');
+        return;
+    }
+    var digits = phone.replace(/\D/g, '');
+    if (digits.length < 10) {
+        alert('Введите полный номер телефона (10-11 цифр)');
+        return;
+    }
+
+    fetch('https://formspree.io/f/mwvdpbap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, time, source: 'Выезд менеджера' })
+    })
+    .then(function(response) {
+        if (response.ok) {
+            alert('Спасибо! Менеджер свяжется с вами для подтверждения выезда.');
+            document.getElementById('cbname').value = '';
+            document.getElementById('cbphone').value = '';
+            document.getElementById('cbtime').value = '';
+        } else {
+            alert('Ошибка отправки. Попробуйте позже.');
+        }
+    })
+    .catch(function(error) {
+        console.error('Ошибка:', error);
+        alert('Ошибка отправки. Проверьте интернет.');
+    });
+}
+
+var PRODUCTS = [];
+
+function loadProducts(callback) {
+    if (PRODUCTS.length > 0) {
+        if (callback) callback(PRODUCTS);
+        return;
+    }
+
+    fetch('../data/products.json')
+        .then(function(response) {
+            if (!response.ok) {
+                return fetch('data/products.json');
+            }
+            return response;
+        })
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Не удалось загрузить products.json');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            PRODUCTS = data;
+            if (callback) callback(PRODUCTS);
+        })
+        .catch(function(error) {
+            console.error('Ошибка загрузки товаров:', error);
+            PRODUCTS = [
+                { id: 1, name: 'Вертикальный «Классик»', category: 'vertical', price: 18000, imageIcon: 'mountain', badge: 'Хит', popular: true, sizes: ['120×60 см'], materials: ['Гранит габбро'], description: 'Стандартная вертикальная стела.' },
+                { id: 2, name: 'Вертикальный «Резной»', category: 'vertical', price: 28000, imageIcon: 'mountain', badge: null, popular: true, sizes: ['130×65 см'], materials: ['Гранит красный'], description: 'Вертикальная стела с резьбой.' },
+                { id: 3, name: 'Семейный (двойной)', category: 'double', price: 36000, imageIcon: 'mountain', badge: 'Двойной', popular: true, sizes: ['120×100 см'], materials: ['Гранит габбро'], description: 'Для двоих захоронений.' },
+                { id: 4, name: 'Мраморный «Классик»', category: 'marble', price: 14000, imageIcon: 'archway', badge: null, popular: true, sizes: ['100×50 см'], materials: ['Мрамор белый'], description: 'Стела из белого мрамора.' },
+                { id: 5, name: 'Ограда профильная', category: 'fence', price: 12000, imageIcon: 'fence', badge: null, popular: true, sizes: ['2×1.5 м'], materials: ['Металл'], description: 'Ограда из профильной трубы.' },
+                { id: 6, name: 'Цоколь гранитный', category: 'socle', price: 22000, imageIcon: 'layer-group', badge: null, popular: true, sizes: ['200×100 см'], materials: ['Гранит'], description: 'Гранитный цоколь.' },
+                { id: 7, name: 'Горизонтальный «Стандарт»', category: 'horizontal', price: 16000, imageIcon: 'mountain', badge: null, popular: false, sizes: ['100×60 см'], materials: ['Гранит серый'], description: 'Горизонтальная стела.' },
+                { id: 8, name: 'Горизонтальный «Резной»', category: 'horizontal', price: 24000, imageIcon: 'mountain', badge: null, popular: false, sizes: ['110×65 см'], materials: ['Гранит красный'], description: 'Горизонтальная стела с резьбой.' },
+                { id: 9, name: 'Двойной «Резной»', category: 'double', price: 45000, imageIcon: 'mountain', badge: 'Двойной', popular: false, sizes: ['140×120 см'], materials: ['Гранит красный'], description: 'Двойной памятник с резьбой.' },
+                { id: 10, name: 'Мраморный «Резной»', category: 'marble', price: 22000, imageIcon: 'archway', badge: null, popular: false, sizes: ['110×55 см'], materials: ['Мрамор белый'], description: 'Мраморная стела с резьбой.' }
+            ];
+            if (callback) callback(PRODUCTS);
+        });
+}
+
+function renderPopularProducts() {
+    var grid = document.getElementById('popularGrid');
+    if (!grid) return;
+
+    loadProducts(function(products) {
+        var popular = products.filter(function(p) { return p.popular === true; }).slice(0, 6);
+
+        if (popular.length === 0) {
+            grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-light);">Нет популярных товаров</p>';
+            return;
+        }
+
+        grid.innerHTML = popular.map(function(p) {
+            return `
+                <div class="item-card" data-cat="${p.category}">
+                    <div class="item-img">
+                        <i class="fas fa-${p.imageIcon || 'mountain'}"></i>
+                        ${p.badge ? `<span class="item-badge">${p.badge}</span>` : ''}
+                    </div>
+                    <div class="item-body">
+                        <h3>${p.name}</h3>
+                        <div class="item-dims">
+                            <span class="dim-tag">${p.sizes[0].label}</span>
+                            <span class="dim-tag">${p.materials[0].label}</span>
+                        </div>
+                        <p class="item-desc">${p.description}</p>
+                        <div class="item-footer" style="flex-direction:column;gap:8px;align-items:stretch;">
+                            <div class="item-price">
+                                <div class="item-price-from">цена от</div>
+                                <div class="item-price-val">${p.price.toLocaleString('ru-RU')} <span class="item-price-unit">₽</span></div>
+                            </div>
+                            <div class="item-actions">
+                                <a href="product/?id=${p.id}" class="btn-card">
+                                    <i class="fas fa-calculator"></i> Рассчитать
+                                </a>
+                                <a href="https://t.me/ваш_телеграм" target="_blank" class="btn-card btn-telegram">
+                                    <i class="fab fa-telegram-plane"></i> Написать
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    });
+}
+
+var currentCategory = 'all';
+var currentPage = 1;
+var ITEMS_PER_PAGE = 20;
+var allProducts = [];
+
+function initCatalog() {
+    var grid = document.getElementById('productGrid');
+    var count = document.getElementById('productCount');
+    var pagination = document.getElementById('pagination');
+
+    if (!grid || !count || !pagination) return;
+
+    loadProducts(function(products) {
+        allProducts = products;
+        renderCatalog();
+    });
+}
+
+function renderCatalog() {
+    var grid = document.getElementById('productGrid');
+    var count = document.getElementById('productCount');
+    var pagination = document.getElementById('pagination');
+
+    if (!grid) return;
+
+    var filtered = allProducts;
+    if (currentCategory !== 'all') {
+        filtered = allProducts.filter(function(p) { return p.category === currentCategory; });
+    }
+
+    count.textContent = 'Найдено ' + filtered.length + ' товаров';
+
+    var totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+    if (currentPage > totalPages) currentPage = 1;
+    var start = (currentPage - 1) * ITEMS_PER_PAGE;
+    var paginated = filtered.slice(start, start + ITEMS_PER_PAGE);
+
+    if (paginated.length === 0) {
+        grid.innerHTML = '<div class="catalog-empty">В этой категории пока нет товаров</div>';
+    } else {
+        grid.innerHTML = paginated.map(function(p) {
+            return `
+                <div class="catalog-item" onclick="window.location.href='../product/?id=${p.id}'">
+                    <div class="catalog-item-img">
+                        <i class="fas fa-${p.imageIcon || 'mountain'}"></i>
+                    </div>
+                    <div class="catalog-item-body">
+                        <h3>${p.name}</h3>
+                        <div class="dims">${p.sizes[0].label}</div>
+                        <div class="price">${p.price.toLocaleString('ru-RU')} <span>₽</span></div>
+                        <div class="item-actions">
+                            <a href="../product/?id=${p.id}" class="btn-card">
+                                <i class="fas fa-calculator"></i> Рассчитать
+                            </a>
+                            <a href="https://t.me/ваш_телеграм" target="_blank" class="btn-card btn-telegram">
+                                <i class="fab fa-telegram-plane"></i> Написать
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+    }
+    var pagHtml = '';
+    for (var i = 1; i <= totalPages; i++) {
+        pagHtml += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goToPage(' + i + ')">' + i + '</button>';
+    }
+    pagination.innerHTML = pagHtml;
+}
+
+function goToPage(page) {
+    currentPage = page;
+    renderCatalog();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setCategory(category) {
+    currentCategory = category;
+    currentPage = 1;
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.category === category);
+    });
+    renderCatalog();
+    var url = new URL(window.location);
+    if (category === 'all') {
+        url.searchParams.delete('category');
+    } else {
+        url.searchParams.set('category', category);
+    }
+    window.history.pushState({}, '', url);
+}
+
+function loadProduct() {
+    var container = document.getElementById('productContainer');
+    if (!container) return;
+
+    var params = new URLSearchParams(window.location.search);
+    var id = parseInt(params.get('id'));
+
+    loadProducts(function(products) {
+        var product = products.find(function(p) { return p.id === id; });
+
+        if (!product) {
+            container.innerHTML = `
+                <div class="product-error" style="grid-column:1/-1;text-align:center;padding:60px 20px;">
+                    <h2>Товар не найден</h2>
+                    <p><a href="../catalog/" style="color:var(--gold);">Вернуться в каталог</a></p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = `
+            <a href="../catalog/" class="back-link" style="grid-column:1/-1;display:inline-block;margin-bottom:20px;color:var(--text-light);font-size:14px;">
+                <i class="fas fa-arrow-left"></i> Назад в каталог
+            </a>
+            <div class="product-image">
+                <i class="fas fa-${product.imageIcon || 'mountain'}"></i>
+            </div>
+            <div class="product-info">
+                <h1>${product.name}</h1>
+                <div class="product-price">${product.price.toLocaleString('ru-RU')} <span>₽</span></div>
+                <p class="product-desc">${product.description}</p>
+                <div class="product-specs">
+                    <h3>Доступные размеры</h3>
+                    <ul>${product.sizes.map(function(s) { return '<li>' + s + '</li>'; }).join('')}</ul>
+                </div>
+                <div class="product-specs">
+                    <h3>Материалы</h3>
+                    <ul>${product.materials.map(function(m) { return '<li>' + m + '</li>'; }).join('')}</ul>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-primary" onclick="window.location.href='../index.html#contact'">
+                        <i class="fas fa-shopping-cart"></i> Заказать
+                    </button>
+                    <button class="btn-outline-dark" onclick="window.location.href='tel:+78412000000'">
+                        <i class="fas fa-phone"></i> Позвонить
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('popularGrid')) {
+        renderPopularProducts();
+    }
+
+    if (document.getElementById('productGrid')) {
+        document.querySelectorAll('.filter-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                setCategory(this.dataset.category);
+            });
+        });
+
+        var params = new URLSearchParams(window.location.search);
+        var catFromUrl = params.get('category');
+        if (catFromUrl) {
+            currentCategory = catFromUrl;
+            document.querySelectorAll('.filter-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.category === catFromUrl);
+            });
+        }
+
+        initCatalog();
+    }
+
+    if (document.getElementById('productContainer')) {
+        loadProduct();
+    }
+});
