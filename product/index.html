@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Конструктор памятника — ГранитМосква</title>
+    <title>Конструктор памятника — СонДуши.рф</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -854,46 +854,7 @@
 </head>
 <body>
 
-<header>
-    <div class="header-inner">
-        <a href="../index.html" class="logo">
-            <div class="logo-icon">Г</div>
-            <div class="logo-text">
-                <div class="logo-name">ГранитМосква</div>
-                <div class="logo-sub">Памятники и благоустройство</div>
-            </div>
-        </a>
-        <nav>
-            <a href="../catalog/" class="nav-link">Каталог</a>
-            <a href="../index.html#callback" class="nav-link">Выезд менеджера</a>
-            <a href="../index.html#about" class="nav-link">О компании</a>
-            <a href="../index.html#gallery" class="nav-link">Работы</a>
-            <a href="../index.html#faq" class="nav-link">FAQ</a>
-            <a href="../index.html#contact" class="nav-link">Контакты</a>
-        </nav>
-        <a href="https://t.me/ваш_телеграм" target="_blank" class="header-telegram" style="display:inline-flex;align-items:center;gap:6px;background:#0088cc;color:#fff;padding:8px 14px;border-radius:var(--radius);font-weight:600;font-size:14px;transition:background .2s;font-family:'Montserrat',sans-serif;margin-left:8px;">
-            <i class="fab fa-telegram-plane"></i> Написать
-        </a>
-        <a href="../index.html#contact" class="header-cta">Оставить заявку</a>
-        <button class="burger" onclick="toggleMenu()" aria-label="Меню">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
-        <a href="../catalog/" onclick="toggleMenu()">Каталог</a>
-        <a href="../index.html#callback" onclick="toggleMenu()">Выезд менеджера</a>
-        <a href="../index.html#about" onclick="toggleMenu()">О компании</a>
-        <a href="../index.html#gallery" onclick="toggleMenu()">Галерея работ</a>
-        <a href="../index.html#faq" onclick="toggleMenu()">FAQ</a>
-        <a href="../index.html#contact" onclick="toggleMenu()">Контакты</a>
-        <a href="https://t.me/ваш_телеграм" target="_blank" style="color: var(--gold-light); margin-top:8px;">
-            <i class="fab fa-telegram-plane" style="margin-right:8px;"></i> Написать в Telegram
-        </a>
-        <a href="tel:+78412000000" style="color: var(--gold-light); margin-top:4px;">
-            <i class="fas fa-phone" style="margin-right:8px;"></i> +7 (8412) 00-00-00
-        </a>
-    </div>
-</header>
+<header id="site-header"></header>
 
 <section class="product-page">
     <div class="product-container" id="productContainer">
@@ -904,40 +865,7 @@
     </div>
 </section>
 
-<footer>
-    <div class="footer-inner">
-        <div class="footer-brand">
-            <div class="logo" style="margin-bottom:14px">
-                <div class="logo-icon">Г</div>
-                <div class="logo-text">
-                    <div class="logo-name">ГранитМосква</div>
-                </div>
-            </div>
-            <p>Проектирование, изготовление и установка памятников любой сложности в Москве и Московской области с 2009 года.</p>
-        </div>
-        <div class="footer-col">
-            <h4>Услуги</h4>
-            <ul>
-                <li><a href="../catalog/?category=vertical">Вертикальные</a></li>
-                <li><a href="../catalog/?category=horizontal">Горизонтальные</a></li>
-                <li><a href="../catalog/?category=double">Двойные</a></li>
-                <li><a href="../catalog/?category=marble">Мраморные</a></li>
-                <li><a href="../catalog/?category=fence">Ограды</a></li>
-                <li><a href="../catalog/?category=socle">Цоколи</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Контакты</h4>
-            <ul>
-                <li><a href="tel:+78412000000">+7 (8412) 00-00-00</a></li>
-                <li><a href="#" onclick="event.preventDefault(); openEmailModal();">info@granitpenza.ru</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer-bottom container">
-        <span>ГранитМосква © 2009–2026</span>
-    </div>
-</footer>
+<footer id="site-footer"></footer>
 
 <!-- МОДАЛКА ДЛЯ ЗАКАЗА -->
 <div class="modal-overlay" id="orderModalOverlay" onclick="closeOrderModalOutside(event)">
@@ -972,9 +900,11 @@
 </div>
 
 <script src="../js/main.js"></script>
+<script src="../js/validation.js"></script>
+<script src="../js/header.js"></script>
 <script>
     // ============================================
-    // КОНСТРУКТОР С АККОРДЕОНОМ (как на pqd.ru)
+    // КОНСТРУКТОР ТОВАРА
     // ============================================
 
     var currentProduct = null;
@@ -1397,4 +1327,3 @@
 </script>
 </body>
 </html>
-

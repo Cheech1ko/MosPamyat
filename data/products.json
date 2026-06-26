@@ -8,45 +8,23 @@
     "imageIcon": "mountain",
     "badge": "Хит",
     "popular": true,
-    "sizes": [
-      { "label": "120×60 см", "price": 0 },
-      { "label": "150×75 см", "price": 4000 },
-      { "label": "180×90 см", "price": 8000 }
-    ],
-    "materials": [
-      { "label": "Гранит габбро", "price": 0 },
-      { "label": "Гранит красный", "price": 3000 },
-      { "label": "Мрамор белый", "price": 5000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "120×60 см", "price": 0 }, { "label": "150×75 см", "price": 4000 }, { "label": "180×90 см", "price": 8000 }],
+    "materials": [{ "label": "Гранит габбро", "price": 0 }, { "label": "Гранит красный", "price": 3000 }, { "label": "Мрамор белый", "price": 5000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Стандартная вертикальная стела из чёрного гранита. Полировка, гравировка портрета и надписи включена."
   },
   {
     "id": 2,
     "name": "Вертикальный «Резной»",
-    "category": "vertical",
+    "category": "carved",
     "price": 28000,
     "basePrice": 28000,
     "imageIcon": "mountain",
     "badge": null,
     "popular": true,
-    "sizes": [
-      { "label": "130×65 см", "price": 0 },
-      { "label": "160×80 см", "price": 5000 }
-    ],
-    "materials": [
-      { "label": "Гранит красный", "price": 0 },
-      { "label": "Гранит габбро", "price": 2000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "130×65 см", "price": 0 }, { "label": "160×80 см", "price": 5000 }],
+    "materials": [{ "label": "Гранит красный", "price": 0 }, { "label": "Гранит габбро", "price": 2000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Вертикальная стела с художественной резьбой. Красный гранит, полировка с двух сторон."
   },
   {
@@ -58,20 +36,9 @@
     "imageIcon": "mountain",
     "badge": "Премиум",
     "popular": false,
-    "sizes": [
-      { "label": "150×80 см", "price": 0 },
-      { "label": "180×100 см", "price": 6000 }
-    ],
-    "materials": [
-      { "label": "Гранит габбро", "price": 0 },
-      { "label": "Гранит красный", "price": 4000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Художественная резьба", "price": 7000 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "150×80 см", "price": 0 }, { "label": "180×100 см", "price": 6000 }],
+    "materials": [{ "label": "Гранит габбро", "price": 0 }, { "label": "Гранит красный", "price": 4000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Художественная резьба", "price": 7000 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Вертикальная стела из гранита высшего сорта с художественной резьбой и полировкой."
   },
   {
@@ -83,19 +50,9 @@
     "imageIcon": "mountain",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "120×50 см", "price": 0 },
-      { "label": "150×60 см", "price": 3000 }
-    ],
-    "materials": [
-      { "label": "Гранит серый", "price": 0 },
-      { "label": "Гранит габбро", "price": 2000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "120×50 см", "price": 0 }, { "label": "150×60 см", "price": 3000 }],
+    "materials": [{ "label": "Гранит серый", "price": 0 }, { "label": "Гранит габбро", "price": 2000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Строгая вертикальная стела без лишних деталей. Лаконичный дизайн, полированная поверхность."
   },
   {
@@ -107,44 +64,23 @@
     "imageIcon": "mountain",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "100×60 см", "price": 0 },
-      { "label": "120×70 см", "price": 3000 }
-    ],
-    "materials": [
-      { "label": "Гранит габбро", "price": 0 },
-      { "label": "Гранит серый", "price": 1500 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "100×60 см", "price": 0 }, { "label": "120×70 см", "price": 3000 }],
+    "materials": [{ "label": "Гранит габбро", "price": 0 }, { "label": "Гранит серый", "price": 1500 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Горизонтальная стела. Подходит для одного или двух захоронений."
   },
   {
     "id": 6,
     "name": "Горизонтальный «Резной»",
-    "category": "horizontal",
+    "category": "carved",
     "price": 24000,
     "basePrice": 24000,
     "imageIcon": "mountain",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "110×65 см", "price": 0 },
-      { "label": "140×80 см", "price": 4000 }
-    ],
-    "materials": [
-      { "label": "Гранит красный", "price": 0 },
-      { "label": "Гранит габбро", "price": 2000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Художественная резьба", "price": 5000 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "110×65 см", "price": 0 }, { "label": "140×80 см", "price": 4000 }],
+    "materials": [{ "label": "Гранит красный", "price": 0 }, { "label": "Гранит габбро", "price": 2000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Художественная резьба", "price": 5000 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Горизонтальная стела с художественной резьбой и полировкой."
   },
   {
@@ -156,19 +92,9 @@
     "imageIcon": "mountain",
     "badge": "Семейный",
     "popular": false,
-    "sizes": [
-      { "label": "150×80 см", "price": 0 },
-      { "label": "180×100 см", "price": 5000 }
-    ],
-    "materials": [
-      { "label": "Гранит габбро", "price": 0 },
-      { "label": "Мрамор белый", "price": 6000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портретов (2 шт)", "price": 6000 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "150×80 см", "price": 0 }, { "label": "180×100 см", "price": 5000 }],
+    "materials": [{ "label": "Гранит габбро", "price": 0 }, { "label": "Мрамор белый", "price": 6000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портретов (2 шт)", "price": 6000 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Горизонтальный памятник для двоих захоронений с двумя портретами."
   },
   {
@@ -180,44 +106,23 @@
     "imageIcon": "mountain",
     "badge": "Двойной",
     "popular": true,
-    "sizes": [
-      { "label": "120×100 см", "price": 0 },
-      { "label": "150×120 см", "price": 5000 }
-    ],
-    "materials": [
-      { "label": "Гранит габбро", "price": 0 },
-      { "label": "Гранит серый", "price": 2000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портретов (2 шт)", "price": 6000 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "120×100 см", "price": 0 }, { "label": "150×120 см", "price": 5000 }],
+    "materials": [{ "label": "Гранит габбро", "price": 0 }, { "label": "Гранит серый", "price": 2000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портретов (2 шт)", "price": 6000 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Памятник для двоих захоронений. Широкая стела с двумя портретами и двумя надписями."
   },
   {
     "id": 9,
     "name": "Двойной «Резной»",
-    "category": "double",
+    "category": "carved",
     "price": 45000,
     "basePrice": 45000,
     "imageIcon": "mountain",
     "badge": "Двойной",
     "popular": false,
-    "sizes": [
-      { "label": "140×120 см", "price": 0 },
-      { "label": "160×140 см", "price": 6000 }
-    ],
-    "materials": [
-      { "label": "Гранит красный", "price": 0 },
-      { "label": "Гранит габбро", "price": 3000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портретов (2 шт)", "price": 6000 },
-      { "label": "Художественная резьба", "price": 8000 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "140×120 см", "price": 0 }, { "label": "160×140 см", "price": 6000 }],
+    "materials": [{ "label": "Гранит красный", "price": 0 }, { "label": "Гранит габбро", "price": 3000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портретов (2 шт)", "price": 6000 }, { "label": "Художественная резьба", "price": 8000 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Двойной памятник с художественной резьбой и индивидуальным дизайном."
   },
   {
@@ -229,44 +134,23 @@
     "imageIcon": "archway",
     "badge": null,
     "popular": true,
-    "sizes": [
-      { "label": "100×50 см", "price": 0 },
-      { "label": "120×60 см", "price": 3000 }
-    ],
-    "materials": [
-      { "label": "Мрамор белый", "price": 0 },
-      { "label": "Мрамор чёрный", "price": 2000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "100×50 см", "price": 0 }, { "label": "120×60 см", "price": 3000 }],
+    "materials": [{ "label": "Мрамор белый", "price": 0 }, { "label": "Мрамор чёрный", "price": 2000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Традиционная вертикальная стела из белого мрамора. Полировка, гравировка."
   },
   {
     "id": 11,
     "name": "Мраморный «Резной»",
-    "category": "marble",
+    "category": "carved",
     "price": 22000,
     "basePrice": 22000,
     "imageIcon": "archway",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "110×55 см", "price": 0 },
-      { "label": "130×65 см", "price": 4000 }
-    ],
-    "materials": [
-      { "label": "Мрамор белый", "price": 0 },
-      { "label": "Мрамор чёрный", "price": 2000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Художественная резьба", "price": 5000 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "110×55 см", "price": 0 }, { "label": "130×65 см", "price": 4000 }],
+    "materials": [{ "label": "Мрамор белый", "price": 0 }, { "label": "Мрамор чёрный", "price": 2000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Художественная резьба", "price": 5000 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Мраморная стела с художественной резьбой и полировкой."
   },
   {
@@ -278,21 +162,9 @@
     "imageIcon": "archway",
     "badge": "Премиум",
     "popular": false,
-    "sizes": [
-      { "label": "140×70 см", "price": 0 },
-      { "label": "160×80 см", "price": 5000 }
-    ],
-    "materials": [
-      { "label": "Мрамор белый", "price": 0 },
-      { "label": "Мрамор чёрный", "price": 3000 }
-    ],
-    "services": [
-      { "label": "Полировка", "price": 2000 },
-      { "label": "Гравировка портрета", "price": 3500 },
-      { "label": "Художественная резьба", "price": 7000 },
-      { "label": "Золочение", "price": 5000 },
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "140×70 см", "price": 0 }, { "label": "160×80 см", "price": 5000 }],
+    "materials": [{ "label": "Мрамор белый", "price": 0 }, { "label": "Мрамор чёрный", "price": 3000 }],
+    "services": [{ "label": "Полировка", "price": 2000 }, { "label": "Гравировка портрета", "price": 3500 }, { "label": "Художественная резьба", "price": 7000 }, { "label": "Золочение", "price": 5000 }, { "label": "Установка на кладбище", "price": 5000 }],
     "description": "Мраморный памятник премиум-класса с художественной резьбой и золочение."
   },
   {
@@ -304,18 +176,9 @@
     "imageIcon": "fence",
     "badge": null,
     "popular": true,
-    "sizes": [
-      { "label": "2×1.5 м", "price": 0 },
-      { "label": "2.5×2 м", "price": 3000 },
-      { "label": "3×2 м", "price": 5000 }
-    ],
-    "materials": [
-      { "label": "Металл с покраской", "price": 0 },
-      { "label": "Металл с порошковым покрытием", "price": 3000 }
-    ],
-    "services": [
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "2×1.5 м", "price": 0 }, { "label": "2.5×2 м", "price": 3000 }, { "label": "3×2 м", "price": 5000 }],
+    "materials": [{ "label": "Металл с покраской", "price": 0 }, { "label": "Металл с порошковым покрытием", "price": 3000 }],
+    "services": [{ "label": "Установка на кладбище", "price": 5000 }],
     "description": "Стандартная ограда из профильной трубы с покраской. Устойчива к коррозии."
   },
   {
@@ -327,40 +190,23 @@
     "imageIcon": "fence",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "2×1.5 м", "price": 0 },
-      { "label": "2.5×2 м", "price": 4000 },
-      { "label": "3×2 м", "price": 6000 }
-    ],
-    "materials": [
-      { "label": "Кованый металл", "price": 0 },
-      { "label": "Кованый металл с позолотой", "price": 5000 }
-    ],
-    "services": [
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "2×1.5 м", "price": 0 }, { "label": "2.5×2 м", "price": 4000 }, { "label": "3×2 м", "price": 6000 }],
+    "materials": [{ "label": "Кованый металл", "price": 0 }, { "label": "Кованый металл с позолотой", "price": 5000 }],
+    "services": [{ "label": "Установка на кладбище", "price": 5000 }],
     "description": "Художественная кованая ограда с декоративными элементами. Ручная работа."
   },
   {
     "id": 15,
     "name": "Ограда с цоколем",
-    "category": "fence",
+    "category": "combined",
     "price": 35000,
     "basePrice": 35000,
     "imageIcon": "fence",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "2×1.5 м", "price": 0 },
-      { "label": "2.5×2 м", "price": 4000 }
-    ],
-    "materials": [
-      { "label": "Металл + Гранит", "price": 0 },
-      { "label": "Металл + Мрамор", "price": 5000 }
-    ],
-    "services": [
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "2×1.5 м", "price": 0 }, { "label": "2.5×2 м", "price": 4000 }],
+    "materials": [{ "label": "Металл + Гранит", "price": 0 }, { "label": "Металл + Мрамор", "price": 5000 }],
+    "services": [{ "label": "Установка на кладбище", "price": 5000 }],
     "description": "Комбинированная ограда с гранитным цоколем и металлическими секциями."
   },
   {
@@ -372,17 +218,9 @@
     "imageIcon": "layer-group",
     "badge": null,
     "popular": true,
-    "sizes": [
-      { "label": "200×100 см", "price": 0 },
-      { "label": "240×120 см", "price": 4000 }
-    ],
-    "materials": [
-      { "label": "Гранит полированный", "price": 0 },
-      { "label": "Гранит шлифованный", "price": 2000 }
-    ],
-    "services": [
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "200×100 см", "price": 0 }, { "label": "240×120 см", "price": 4000 }],
+    "materials": [{ "label": "Гранит полированный", "price": 0 }, { "label": "Гранит шлифованный", "price": 2000 }],
+    "services": [{ "label": "Установка на кладбище", "price": 5000 }],
     "description": "Гранитный цоколь для оформления участка захоронения. Полировка, возможна инкрустация."
   },
   {
@@ -394,99 +232,65 @@
     "imageIcon": "layer-group",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "200×100 см", "price": 0 },
-      { "label": "240×120 см", "price": 5000 }
-    ],
-    "materials": [
-      { "label": "Мрамор полированный", "price": 0 },
-      { "label": "Мрамор шлифованный", "price": 2000 }
-    ],
-    "services": [
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "200×100 см", "price": 0 }, { "label": "240×120 см", "price": 5000 }],
+    "materials": [{ "label": "Мрамор полированный", "price": 0 }, { "label": "Мрамор шлифованный", "price": 2000 }],
+    "services": [{ "label": "Установка на кладбище", "price": 5000 }],
     "description": "Мраморный цоколь. Белый или чёрный мрамор, полированная поверхность."
   },
   {
     "id": 18,
     "name": "Цоколь с цветником",
-    "category": "socle",
+    "category": "combined",
     "price": 32000,
     "basePrice": 32000,
     "imageIcon": "layer-group",
     "badge": "Цветник",
     "popular": false,
-    "sizes": [
-      { "label": "220×120 см", "price": 0 },
-      { "label": "260×140 см", "price": 5000 }
-    ],
-    "materials": [
-      { "label": "Гранит", "price": 0 },
-      { "label": "Мрамор", "price": 4000 }
-    ],
-    "services": [
-      { "label": "Установка на кладбище", "price": 5000 }
-    ],
+    "sizes": [{ "label": "220×120 см", "price": 0 }, { "label": "260×140 см", "price": 5000 }],
+    "materials": [{ "label": "Гранит", "price": 0 }, { "label": "Мрамор", "price": 4000 }],
+    "services": [{ "label": "Установка на кладбище", "price": 5000 }],
     "description": "Цоколь с интегрированным цветником для комплексного благоустройства."
   },
   {
     "id": 19,
     "name": "Благоустройство «Минимал»",
-    "category": "improve",
+    "category": "complex",
     "price": 8000,
     "basePrice": 8000,
     "imageIcon": "tree",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "По желанию", "price": 0 }
-    ],
-    "materials": [
-      { "label": "Гравий, газон", "price": 0 }
-    ],
-    "services": [
-      { "label": "Работа по благоустройству", "price": 3000 }
-    ],
+    "sizes": [{ "label": "По желанию", "price": 0 }],
+    "materials": [{ "label": "Гравий, газон", "price": 0 }],
+    "services": [{ "label": "Работа по благоустройству", "price": 3000 }],
     "description": "Минимальное благоустройство: засыпка гравием, установка бордюров, посадка газона."
   },
   {
     "id": 20,
     "name": "Благоустройство «Стандарт»",
-    "category": "improve",
+    "category": "complex",
     "price": 15000,
     "basePrice": 15000,
     "imageIcon": "tree",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "По желанию", "price": 0 }
-    ],
-    "materials": [
-      { "label": "Гравий, плитка, растения", "price": 0 }
-    ],
-    "services": [
-      { "label": "Работа по благоустройству", "price": 4000 }
-    ],
+    "sizes": [{ "label": "По желанию", "price": 0 }],
+    "materials": [{ "label": "Гравий, плитка, растения", "price": 0 }],
+    "services": [{ "label": "Работа по благоустройству", "price": 4000 }],
     "description": "Благоустройство с гравийной засыпкой, тротуарной плиткой и декоративными растениями."
   },
   {
     "id": 21,
     "name": "Благоустройство «Премиум»",
-    "category": "improve",
+    "category": "complex",
     "price": 25000,
     "basePrice": 25000,
     "imageIcon": "tree",
     "badge": "Премиум",
     "popular": false,
-    "sizes": [
-      { "label": "По желанию", "price": 0 }
-    ],
-    "materials": [
-      { "label": "Гранитная крошка, плитка, туя, цветы", "price": 0 }
-    ],
-    "services": [
-      { "label": "Работа по благоустройству", "price": 5000 }
-    ],
+    "sizes": [{ "label": "По желанию", "price": 0 }],
+    "materials": [{ "label": "Гранитная крошка, плитка, туя, цветы", "price": 0 }],
+    "services": [{ "label": "Работа по благоустройству", "price": 5000 }],
     "description": "Полное благоустройство с гранитной отсыпкой, фигурной плиткой и живыми растениями."
   },
   {
@@ -498,14 +302,8 @@
     "imageIcon": "candle-holder",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "30×30 см", "price": 0 },
-      { "label": "40×40 см", "price": 1500 }
-    ],
-    "materials": [
-      { "label": "Гранит полированный", "price": 0 },
-      { "label": "Гранит шлифованный", "price": 1000 }
-    ],
+    "sizes": [{ "label": "30×30 см", "price": 0 }, { "label": "40×40 см", "price": 1500 }],
+    "materials": [{ "label": "Гранит полированный", "price": 0 }, { "label": "Гранит шлифованный", "price": 1000 }],
     "services": [],
     "description": "Гранитный вазон для цветов. Полированная поверхность, доступен в разных цветах."
   },
@@ -518,14 +316,8 @@
     "imageIcon": "candle-holder",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "15×15 см", "price": 0 },
-      { "label": "20×20 см", "price": 1000 }
-    ],
-    "materials": [
-      { "label": "Гранит", "price": 0 },
-      { "label": "Мрамор", "price": 1500 }
-    ],
+    "sizes": [{ "label": "15×15 см", "price": 0 }, { "label": "20×20 см", "price": 1000 }],
+    "materials": [{ "label": "Гранит", "price": 0 }, { "label": "Мрамор", "price": 1500 }],
     "services": [],
     "description": "Гранитная лампада с отверстием под свечу. Разные формы и цвета."
   },
@@ -538,14 +330,8 @@
     "imageIcon": "candle-holder",
     "badge": null,
     "popular": false,
-    "sizes": [
-      { "label": "120×40 см", "price": 0 },
-      { "label": "150×40 см", "price": 2000 }
-    ],
-    "materials": [
-      { "label": "Гранит полированный", "price": 0 },
-      { "label": "Гранит шлифованный", "price": 1500 }
-    ],
+    "sizes": [{ "label": "120×40 см", "price": 0 }, { "label": "150×40 см", "price": 2000 }],
+    "materials": [{ "label": "Гранит полированный", "price": 0 }, { "label": "Гранит шлифованный", "price": 1500 }],
     "services": [],
     "description": "Гранитная скамья для зоны отдыха на кладбище. Устойчивая к погоде."
   }
