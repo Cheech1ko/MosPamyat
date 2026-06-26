@@ -154,31 +154,7 @@
 </head>
 <body>
 
-<header>
-    <div class="header-inner">
-        <a href="index.html" class="logo">
-            <div class="logo-icon">С</div>
-            <div class="logo-text">
-                <div class="logo-name">Сон Души</div>
-                <div class="logo-sub">Памятники и благоустройство</div>
-            </div>
-        </a>
-        <nav>
-            <a href="catalog/" class="nav-link">Каталог</a>
-            <a href="index.html#about" class="nav-link">О компании</a>
-            <a href="index.html#contact" class="nav-link">Контакты</a>
-        </nav>
-        <a href="index.html#contact" class="header-cta">Оставить заявку</a>
-        <button class="burger" onclick="toggleMenu()" aria-label="Меню">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
-        <a href="catalog/" onclick="toggleMenu()">Каталог</a>
-        <a href="index.html#about" onclick="toggleMenu()">О компании</a>
-        <a href="index.html#contact" onclick="toggleMenu()">Контакты</a>
-    </div>
-</header>
+<header id="site-header"></header>
 
 <div class="policy-hero">
     <h1>Политика конфиденциальности</h1>
@@ -321,41 +297,10 @@
 
 </div>
 
-<footer>
-    <div class="footer-inner container">
-        <div class="footer-brand">
-            <div class="logo" style="margin-bottom:14px">
-                <div class="logo-icon">Г</div>
-                <div class="logo-text">
-                    <div class="logo-name">Сон Души</div>
-                </div>
-            </div>
-            <p>Изготовление и установка памятников в Москве и Московской области.</p>
-        </div>
-        <div class="footer-col">
-            <h4>Навигация</h4>
-            <ul>
-                <li><a href="catalog/">Каталог</a></li>
-                <li><a href="index.html#about">О компании</a></li>
-                <li><a href="index.html#contact">Контакты</a></li>
-                <li><a href="privacy-policy.html" style="color:var(--gold-light);">Политика конфиденциальности</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Контакты</h4>
-            <ul>
-                <li><a href="tel:+78412000000">+7 (8412) 00-00-00</a></li>
-                <li><a href="mailto:info@granitpenza.ru">info@granitpenza.ru</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer-bottom container">
-        <span>Сон Души © 2009–2026</span>
-        <a href="privacy-policy.html" style="color:rgba(255,255,255,0.35);font-size:12px;">Политика конфиденциальности</a>
-    </div>
-</footer>
+<footer id="site-footer"></footer>
 
 <script src="js/main.js"></script>
+<script src="js/header.js"></script>
 <script src="js/logo-patch.js"></script>
 </body>
 </html>
