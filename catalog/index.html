@@ -197,10 +197,10 @@
 
         /* Фото */
         .catalog-item-img {
-            height: 220px;
+            height: 280px;
             background: #f5f5f5;
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
             position: relative;
             overflow: hidden;
@@ -209,7 +209,8 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            padding: 12px;
+            object-position: center bottom;
+            padding: 8px 8px 0 8px;
             transition: transform .3s ease;
         }
         .catalog-item:hover .catalog-item-img img {
@@ -432,7 +433,7 @@
         @media (max-width: 1100px) {
             .catalog-layout { grid-template-columns: 200px 1fr; gap: 20px; }
             .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
-            .catalog-item-img { height: 200px; }
+            .catalog-item-img { height: 260px; }
         }
 
         /* ── Планшет-портрет и крупный телефон (до 992px) ── */
@@ -560,7 +561,7 @@
             .filter-clear:hover { text-decoration: underline; }
 
             .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-            .catalog-item-img { height: 190px; }
+            .catalog-item-img { height: 240px; }
             .btn-icon { width: 34px; height: 34px; padding: 5px; }
         }
 
@@ -571,7 +572,7 @@
             .catalog-header h1 { font-size: 22px; }
 
             .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-            .catalog-item-img { height: 160px; }
+            .catalog-item-img { height: 210px; }
             .catalog-item-body { padding: 12px 14px 14px; }
             .catalog-item-body h3 { font-size: 14px; }
             .catalog-item-body .dims { font-size: 12px; }
@@ -635,7 +636,7 @@
             .catalog-toolbar .sort select { font-size: 12px; padding: 5px 8px; }
 
             .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .catalog-item-img { height: 140px; }
+            .catalog-item-img { height: 180px; }
             .catalog-item-body { padding: 10px 12px 12px; }
             .catalog-item-body h3 { font-size: 13px; line-height: 1.25; }
             .catalog-item-body .dims { font-size: 11px; margin-bottom: 6px; }
@@ -661,7 +662,7 @@
             .catalog-header h1 { font-size: 18px; }
 
             .catalog-grid { grid-template-columns: 1fr; gap: 12px; }
-            .catalog-item-img { height: 220px; }
+            .catalog-item-img { height: 280px; }
             .catalog-item-body { padding: 14px 16px; }
             .catalog-item-body h3 { font-size: 16px; }
             .catalog-item-body .dims { font-size: 13px; }

@@ -1042,9 +1042,10 @@ input.error, textarea.error, select.error {
     gap: 8px;
     margin-top: 16px;
 }
+
 .gallery-dot {
-    width: clamp(8px, 0.8vw, 10px);
-    height: clamp(8px, 0.8vw, 10px);
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--border);
     border: none;
@@ -1052,8 +1053,15 @@ input.error, textarea.error, select.error {
     transition: background .2s, transform .2s;
     padding: 0;
 }
-.gallery-dot.active { background: var(--gold); transform: scale(1.25); }
-.gallery-dot:hover { background: var(--gold-light); }
+
+.gallery-dot.active {
+    background: var(--gold);
+    transform: scale(1.25);
+}
+
+.gallery-dot:hover {
+    background: var(--gold-light);
+}
 
 @media (max-width: 768px) {
     .gallery-item {
