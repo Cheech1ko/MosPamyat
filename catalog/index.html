@@ -197,20 +197,21 @@
 
         /* Фото */
         .catalog-item-img {
-            height: 280px;
+            height: 350px;
             background: #fff;
             display: flex;
             align-items: flex-end;
             justify-content: center;
             position: relative;
             overflow: hidden;
+            padding: 0;
         }
         .catalog-item-img img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            object-position: center bottom;
-            padding: 8px 8px 0 8px;
+            object-position: bottom center;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.05));
             transition: transform .3s ease;
         }
         .catalog-item:hover .catalog-item-img img {
@@ -238,7 +239,7 @@
         /* Тело карточки */
         .catalog-item-body {
             padding: 12px 14px 14px;
-            flex: 1;
+            flex: 0 0 auto;
             display: flex;
             flex-direction: column;
         }
@@ -265,7 +266,16 @@
             font-weight: 400;
             color: var(--text-light);
         }
+        @media (max-width: 768px) {
+            .catalog-item-img { height: 300px; } /* На планшетах */
+        }
 
+        @media (max-width: 480px) {
+            .catalog-item-img { height: 250px; } /* На телефонах */
+            .catalog-item-body { padding: 12px; }
+            .catalog-item-body h3 { font-size: 14px; min-height: 36px; }
+            .catalog-item-body .price { font-size: 18px; }
+        }
         /* ===== КНОПКИ В КАРТОЧКЕ ===== */
         .catalog-item-body .item-actions {
             display: flex;
@@ -636,8 +646,7 @@
             .catalog-toolbar .sort select { font-size: 12px; padding: 5px 8px; }
 
             .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .catalog-item-img { height: 180px; }
-            .catalog-item-body { padding: 10px 12px 12px; }
+            
             .catalog-item-body h3 { font-size: 13px; line-height: 1.25; }
             .catalog-item-body .dims { font-size: 11px; margin-bottom: 6px; }
             .catalog-item-body .price { font-size: 16px; margin-bottom: 8px; }
@@ -662,8 +671,6 @@
             .catalog-header h1 { font-size: 18px; }
 
             .catalog-grid { grid-template-columns: 1fr; gap: 12px; }
-            .catalog-item-img { height: 280px; }
-            .catalog-item-body { padding: 14px 16px; }
             .catalog-item-body h3 { font-size: 16px; }
             .catalog-item-body .dims { font-size: 13px; }
             .catalog-item-body .price { font-size: 20px; }
