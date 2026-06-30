@@ -2,24 +2,26 @@
 // ============================================================
 //  КОНФИГУРАЦИЯ — измените пароль перед загрузкой!
 // ============================================================
-define('ADMIN_PASSWORD', 'mospamyat2026');  
+define('ADMIN_PASSWORD', 'granvremeni2026');  
 define('PRODUCTS_FILE',  __DIR__ . '/../data/products.json');
 define('UPLOAD_DIR',     __DIR__ . '/../img/products-img/');
 define('UPLOAD_URL',     '../img/products-img/');
+define('MATERIAL_DIR',   __DIR__ . '/../img/products-img/materials/');
+define('MATERIAL_URL',   '../img/products-img/materials/');
 define('SESSION_NAME',   'mp_admin');
 
 
 session_name(SESSION_NAME);
 session_start();
-
+ 
 $error = '';
-
+ 
 if (isset($_POST['logout'])) {
     session_destroy();
     header('Location: index.php');
     exit;
 }
-
+ 
 if (isset($_POST['password'])) {
     if ($_POST['password'] === ADMIN_PASSWORD) {
         $_SESSION['auth'] = true;
@@ -29,9 +31,9 @@ if (isset($_POST['password'])) {
         $error = 'Неверный пароль';
     }
 }
-
+ 
 $authed = !empty($_SESSION['auth']);
-
+ 
 // ============================================================
 //  ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // ============================================================
@@ -40,7 +42,7 @@ function loadProducts(): array {
     $json = file_get_contents(PRODUCTS_FILE);
     return json_decode($json, true) ?: [];
 }
-
+ 
 function saveProducts(array $products): bool {
     $dir = dirname(PRODUCTS_FILE);
     if (!is_dir($dir)) mkdir($dir, 0755, true);
@@ -49,11 +51,11 @@ function saveProducts(array $products): bool {
         json_encode($products, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
     ) !== false;
 }
-
+ 
 function generateId(): string {
     return 'p' . time() . rand(100, 999);
 }
-
+ 
 function parseOptionRows(string $prefix, array $post): array {
     $result = [];
     $labels = $post[$prefix . '_label'] ?? [];
@@ -65,25 +67,35 @@ function parseOptionRows(string $prefix, array $post): array {
     }
     return $result;
 }
-
-function uploadPhoto(array $file): string|false {
+ 
+// Загрузка фото в указанную папку
+function uploadFile(array $file, string $dir, string $urlBase): string|false {
     if ($file['error'] !== UPLOAD_ERR_OK) return false;
     $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     if (!in_array($ext, ['jpg','jpeg','png','webp'])) return false;
     if ($file['size'] > 5 * 1024 * 1024) return false;
-    if (!is_dir(UPLOAD_DIR)) mkdir(UPLOAD_DIR, 0755, true);
+    if (!is_dir($dir)) mkdir($dir, 0755, true);
     $name = uniqid('photo_') . '.' . $ext;
-    $dest = UPLOAD_DIR . $name;
-    if (!move_uploaded_file($file['tmp_name'], $dest)) return false;
-    return UPLOAD_URL . $name;
+    if (!move_uploaded_file($file['tmp_name'], $dir . $name)) return false;
+    return $urlBase . $name;
 }
-
+ 
+// Фото товара → img/products-img/
+function uploadPhoto(array $file): string|false {
+    return uploadFile($file, UPLOAD_DIR, UPLOAD_URL);
+}
+ 
+// Фото материала → img/products-img/materials/
+function uploadMaterial(array $file): string|false {
+    return uploadFile($file, MATERIAL_DIR, MATERIAL_URL);
+}
+ 
 // ============================================================
 //  AJAX / POST ОБРАБОТКА
 // ============================================================
 if ($authed) {
     $action = $_POST['action'] ?? $_GET['action'] ?? '';
-
+ 
     // Удалить товар
     if ($action === 'delete' && isset($_POST['id'])) {
         $products = loadProducts();
@@ -93,7 +105,7 @@ if ($authed) {
         echo json_encode(['ok' => true]);
         exit;
     }
-
+ 
     // Переключить hidden
     if ($action === 'toggle_hidden' && isset($_POST['id'])) {
         $products = loadProducts();
@@ -108,7 +120,7 @@ if ($authed) {
         echo json_encode(['ok' => true]);
         exit;
     }
-
+ 
     // Сохранить порядок
     if ($action === 'reorder' && isset($_POST['ids'])) {
         $ids = json_decode($_POST['ids'], true);
@@ -129,34 +141,42 @@ if ($authed) {
         echo json_encode(['ok' => true]);
         exit;
     }
-
+ 
     // Сохранить товар (создать / обновить)
     if ($action === 'save' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $products = loadProducts();
         $id = trim($_POST['id'] ?? '');
         $isNew = ($id === '');
         if ($isNew) $id = generateId();
-
-        // Фото
+ 
+        // Фото товара → img/products-img/
         $photoURL = $_POST['photoURL'] ?? '';
         if (!empty($_FILES['photo']['name'])) {
             $uploaded = uploadPhoto($_FILES['photo']);
             if ($uploaded) $photoURL = $uploaded;
         }
-
+ 
+        // Фото материала → img/products-img/materials/
+        $materialPhotoURL = $_POST['materialPhotoURL'] ?? '';
+        if (!empty($_FILES['material_photo']['name'])) {
+            $uploaded = uploadMaterial($_FILES['material_photo']);
+            if ($uploaded) $materialPhotoURL = $uploaded;
+        }
+ 
         // Размеры — построчно
         $sizesRaw = $_POST['sizes'] ?? '';
         $sizes = array_values(array_filter(
             array_map('trim', explode("\n", $sizesRaw))
         ));
-
+ 
         $product = [
             'id'          => $id,
             'name'        => trim($_POST['name'] ?? ''),
             'category'    => $_POST['category'] ?? 'vertical',
             'price'       => (int)($_POST['price'] ?? 0),
             'basePrice'   => (int)($_POST['price'] ?? 0),
-            'photoURL'    => $photoURL,
+            'photoURL'        => $photoURL,
+            'materialPhotoURL' => $materialPhotoURL,
             'badge'       => trim($_POST['badge'] ?? '') ?: null,
             'popular'     => isset($_POST['popular']),
             'hidden'      => isset($_POST['hidden']),
@@ -170,7 +190,7 @@ if ($authed) {
             'finishes'    => parseOptionRows('finishes', $_POST),
             'services'    => parseOptionRows('services', $_POST),
         ];
-
+ 
         if ($isNew) {
             $products[] = $product;
         } else {
@@ -180,14 +200,14 @@ if ($authed) {
             }
             if (!$found) $products[] = $product;
         }
-
+ 
         usort($products, fn($a, $b) => ($a['sortOrder'] ?? 0) <=> ($b['sortOrder'] ?? 0));
         saveProducts($products);
-
+ 
         header('Location: index.php?saved=1');
         exit;
     }
-
+ 
     // Получить товар для редактирования (JSON)
     if ($action === 'get' && isset($_GET['id'])) {
         $products = loadProducts();
@@ -203,11 +223,11 @@ if ($authed) {
         exit;
     }
 }
-
+ 
 $products = $authed ? loadProducts() : [];
 $visibleProducts = array_filter($products, fn($p) => ($p['category'] ?? '') !== '_component');
 $visibleProducts = array_values($visibleProducts);
-
+ 
 $categories = [
     'vertical'   => 'Вертикальные',
     'horizontal' => 'Горизонтальные',
@@ -219,7 +239,7 @@ $categories = [
     'fence'      => 'Ограды',
     'socle'      => 'Цоколи',
 ];
-
+ 
 ?><!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -236,7 +256,7 @@ $categories = [
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; color: var(--text); min-height: 100vh; }
-
+ 
 /* ── ЛОГИН ── */
 .login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
 .login-box {
@@ -266,7 +286,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; color: var(--te
 .btn-full { width: 100%; justify-content: center; }
 .error-msg { background: #fff3f3; border: 1px solid #f5c6c6; border-radius: 6px;
     color: var(--red); padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
-
+ 
 /* ── ШАПКА ── */
 .topbar {
     background: var(--dark); color: #fff; padding: 0 24px;
@@ -277,21 +297,21 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; color: var(--te
 .topbar-logo { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
 .topbar-logo span { color: var(--gold); }
 .topbar-actions { display: flex; align-items: center; gap: 12px; }
-
+ 
 /* ── LAYOUT ── */
 .main { max-width: 1300px; margin: 0 auto; padding: 24px 16px; }
 .page-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
 .notice { background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px;
     color: var(--green); padding: 12px 18px; font-size: 13px; margin-bottom: 20px;
     display: flex; align-items: center; gap: 8px; }
-
+ 
 /* ── КАРТОЧКИ СТАТИСТИКИ ── */
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 28px; }
 .stat-card { background: #fff; border-radius: 12px; padding: 18px 20px;
     box-shadow: 0 1px 8px rgba(0,0,0,.06); border-left: 4px solid var(--gold); }
 .stat-card .num { font-size: 28px; font-weight: 800; color: var(--dark); }
 .stat-card .lbl { font-size: 12px; color: var(--text-light); margin-top: 2px; }
-
+ 
 /* ── ТАБЛИЦА ТОВАРОВ ── */
 .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
 .toolbar input[type=text] {
@@ -300,7 +320,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; color: var(--te
 }
 .toolbar input:focus { border-color: var(--gold); }
 .toolbar select { padding: 8px 12px; border: 1.5px solid var(--border); border-radius: var(--radius); font-size: 13px; outline: none; }
-
+ 
 .products-table-wrap { background: #fff; border-radius: 12px; box-shadow: 0 1px 8px rgba(0,0,0,.06); overflow: hidden; }
 table { width: 100%; border-collapse: collapse; }
 thead th { background: var(--gray); padding: 11px 14px; text-align: left; font-size: 12px;
@@ -327,7 +347,7 @@ td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 .drag-handle { cursor: grab; color: #ccc; font-size: 16px; padding-right: 8px; }
 .drag-handle:hover { color: #999; }
 tr.drag-over { border-top: 2px solid var(--gold); }
-
+ 
 /* ── МОДАЛЬНОЕ ОКНО РЕДАКТОРА ── */
 .modal-overlay {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6);
@@ -354,7 +374,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     display: flex; gap: 10px; justify-content: flex-end;
     position: sticky; bottom: 0; background: #fff; border-radius: 0 0 16px 16px;
 }
-
+ 
 /* ── ФОРМА РЕДАКТОРА ── */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-grid .full { grid-column: 1 / -1; }
@@ -371,10 +391,10 @@ tr.drag-over { border-top: 2px solid var(--gold); }
 .fgroup input:focus, .fgroup select:focus, .fgroup textarea:focus { border-color: var(--gold); }
 .fgroup textarea { resize: vertical; min-height: 72px; }
 .fgroup .hint { font-size: 11px; color: #999; }
-
+ 
 .check-row { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
 .check-row input { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
-
+ 
 /* Фото-превью */
 .photo-preview { width: 100%; max-width: 200px; height: 140px; background: var(--gray);
     border-radius: 10px; object-fit: cover; border: 1.5px solid var(--border); display: none; }
@@ -384,7 +404,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     display: flex; align-items: center; justify-content: center; color: #bbb;
     font-size: 36px; flex-direction: column; gap: 6px; cursor: pointer; }
 .photo-placeholder span { font-size: 12px; }
-
+ 
 /* Опции (материалы, гравировка и т.д.) */
 .section-title { font-size: 13px; font-weight: 700; color: var(--text-light);
     text-transform: uppercase; letter-spacing: .5px; margin: 20px 0 10px; padding-bottom: 6px;
@@ -399,7 +419,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     border-radius: var(--radius); padding: 7px 14px; font-size: 12px; cursor: pointer;
     width: 100%; text-align: center; transition: .2s; }
 .btn-add-option:hover { border-color: var(--gold); color: var(--gold); }
-
+ 
 /* ── УДАЛЕНИЕ ── */
 .confirm-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5);
     z-index: 600; align-items: center; justify-content: center; padding: 20px; }
@@ -409,7 +429,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
 .confirm-box h3 { font-size: 18px; margin-bottom: 10px; }
 .confirm-box p { font-size: 14px; color: var(--text-light); margin-bottom: 22px; }
 .confirm-box .actions { display: flex; gap: 10px; justify-content: center; }
-
+ 
 /* ── АДАПТИВ ── */
 @media (max-width: 700px) {
     .form-grid { grid-template-columns: 1fr; }
@@ -426,7 +446,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
 </style>
 </head>
 <body>
-
+ 
 <?php if (!$authed): ?>
 <!-- ══════════════ СТРАНИЦА ВХОДА ══════════════ -->
 <div class="login-wrap">
@@ -442,7 +462,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     </form>
   </div>
 </div>
-
+ 
 <?php else: ?>
 <!-- ══════════════ ПАНЕЛЬ УПРАВЛЕНИЯ ══════════════ -->
 <div class="topbar">
@@ -461,7 +481,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     </form>
   </div>
 </div>
-
+ 
 <div class="main">
   <div class="page-title">
     <i class="fas fa-boxes" style="color:var(--gold)"></i> Каталог товаров
@@ -469,11 +489,11 @@ tr.drag-over { border-top: 2px solid var(--gold); }
       <i class="fas fa-plus"></i> Добавить товар
     </button>
   </div>
-
+ 
   <?php if (isset($_GET['saved'])): ?>
   <div class="notice"><i class="fas fa-check-circle"></i> Товар успешно сохранён!</div>
   <?php endif; ?>
-
+ 
   <!-- Статистика -->
   <?php
     $total   = count($visibleProducts);
@@ -486,7 +506,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     <div class="stat-card"><div class="num"><?= $total - $visible ?></div><div class="lbl">Скрытых</div></div>
     <div class="stat-card"><div class="num"><?= count($categories) ?></div><div class="lbl">Категорий</div></div>
   </div>
-
+ 
   <!-- Инструменты фильтрации -->
   <div class="toolbar">
     <input type="text" id="searchInput" placeholder="🔍 Поиск по названию..." oninput="filterTable()">
@@ -501,7 +521,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
       Показать скрытые
     </label>
   </div>
-
+ 
   <!-- Таблица товаров -->
   <div class="products-table-wrap">
     <table id="productsTable">
@@ -566,7 +586,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     </table>
   </div>
 </div>
-
+ 
 <!-- ══════════════ МОДАЛЬНОЕ ОКНО РЕДАКТОРА ══════════════ -->
 <div class="modal-overlay" id="editorModal">
   <div class="modal">
@@ -579,14 +599,14 @@ tr.drag-over { border-top: 2px solid var(--gold); }
         <input type="hidden" name="action" value="save">
         <input type="hidden" name="id" id="f_id">
         <input type="hidden" name="photoURL" id="f_photoURL">
-
+ 
         <div class="form-grid">
           <!-- Название -->
           <div class="fgroup full">
             <label>Название товара *</label>
             <input type="text" name="name" id="f_name" required placeholder="Вертикальный «Классик»">
           </div>
-
+ 
           <!-- Категория -->
           <div class="fgroup">
             <label>Категория *</label>
@@ -596,25 +616,25 @@ tr.drag-over { border-top: 2px solid var(--gold); }
               <?php endforeach; ?>
             </select>
           </div>
-
+ 
           <!-- Цена -->
           <div class="fgroup">
             <label>Цена (₽) *</label>
             <input type="number" name="price" id="f_price" required min="0" placeholder="18000">
           </div>
-
+ 
           <!-- Порядок сортировки -->
           <div class="fgroup">
             <label>Порядок (меньше = выше)</label>
             <input type="number" name="sortOrder" id="f_sortOrder" min="0" placeholder="1">
           </div>
-
+ 
           <!-- Бейдж -->
           <div class="fgroup">
             <label>Бейдж (необязательно)</label>
             <input type="text" name="badge" id="f_badge" placeholder="Хит / Премиум / Новинка">
           </div>
-
+ 
           <!-- Чекбоксы -->
           <div class="fgroup full" style="flex-direction:row; gap:24px; align-items:center;">
             <label class="check-row">
@@ -624,13 +644,13 @@ tr.drag-over { border-top: 2px solid var(--gold); }
               <input type="checkbox" name="hidden" id="f_hidden"> Скрыть из каталога
             </label>
           </div>
-
+ 
           <!-- Описание -->
           <div class="fgroup full">
             <label>Описание</label>
             <textarea name="description" id="f_description" placeholder="Краткое описание товара..."></textarea>
           </div>
-
+ 
           <!-- Фото -->
           <div class="fgroup full">
             <label>Фото товара</label>
@@ -656,7 +676,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
               </div>
             </div>
           </div>
-
+ 
           <!-- Размеры -->
           <div class="fgroup full">
             <label>Размеры (каждый с новой строки)</label>
@@ -664,42 +684,69 @@ tr.drag-over { border-top: 2px solid var(--gold); }
               placeholder="80×40×5 см&#10;100×50×5 см&#10;120×60×8 см"></textarea>
           </div>
         </div>
-
+ 
+        <!-- Фото материала -->
+          <div class="fgroup full">
+            <label>Фото материала (папка materials/)</label>
+            <div style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+              <div>
+                <img id="matPhotoPreview" class="photo-preview" src="" alt="Превью материала">
+                <div id="matPhotoPlaceholder" class="photo-placeholder" onclick="document.getElementById('f_material_photo').click()">
+                  <i class="fas fa-image"></i>
+                  <span>Фото материала</span>
+                </div>
+              </div>
+              <div style="flex:1; min-width:200px;">
+                <input type="file" name="material_photo" id="f_material_photo" accept="image/*" style="display:none" onchange="previewMaterialPhoto(this)">
+                <button type="button" class="btn btn-dark btn-sm" onclick="document.getElementById('f_material_photo').click()" style="margin-bottom:8px;">
+                  <i class="fas fa-upload"></i> Загрузить фото материала
+                </button>
+                <p style="font-size:12px; color:#999; margin-top:6px;">Сохранится в <code>img/products-img/materials/</code></p>
+                <div style="margin-top:10px;">
+                  <label style="font-size:12px; color:var(--text-light); font-weight:700; text-transform:uppercase; display:block; margin-bottom:4px;">Или укажите путь</label>
+                  <input type="text" id="f_materialPhotoURLInput" name="materialPhotoURL" placeholder="img/products-img/materials/granite.jpg"
+                    style="width:100%; padding:8px 10px; border:1.5px solid var(--border); border-radius:var(--radius); font-size:13px; outline:none;"
+                    oninput="updateMatPhotoPreview(this.value)">
+                </div>
+              </div>
+            </div>
+          </div>
+ 
         <!-- Опции: Материалы -->
         <div class="section-title">
           Материалы
           <button type="button" class="btn btn-sm btn-dark" onclick="addOption('materials')"><i class="fas fa-plus"></i> Добавить</button>
         </div>
         <div class="options-list" id="opt_materials"></div>
-
+ 
         <!-- Опции: Цвета -->
         <div class="section-title">
           Цвета
           <button type="button" class="btn btn-sm btn-dark" onclick="addOption('colors')"><i class="fas fa-plus"></i> Добавить</button>
         </div>
         <div class="options-list" id="opt_colors"></div>
-
+ 
         <!-- Опции: Гравировки -->
         <div class="section-title">
           Гравировки
           <button type="button" class="btn btn-sm btn-dark" onclick="addOption('engravings')"><i class="fas fa-plus"></i> Добавить</button>
         </div>
         <div class="options-list" id="opt_engravings"></div>
-
+ 
         <!-- Опции: Обработка -->
         <div class="section-title">
           Обработка поверхности
           <button type="button" class="btn btn-sm btn-dark" onclick="addOption('finishes')"><i class="fas fa-plus"></i> Добавить</button>
         </div>
         <div class="options-list" id="opt_finishes"></div>
-
+ 
         <!-- Опции: Услуги -->
         <div class="section-title">
           Услуги
           <button type="button" class="btn btn-sm btn-dark" onclick="addOption('services')"><i class="fas fa-plus"></i> Добавить</button>
         </div>
         <div class="options-list" id="opt_services"></div>
-
+ 
       </form>
     </div>
     <div class="modal-foot">
@@ -710,7 +757,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     </div>
   </div>
 </div>
-
+ 
 <!-- ══════════════ ДИАЛОГ УДАЛЕНИЯ ══════════════ -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -722,7 +769,7 @@ tr.drag-over { border-top: 2px solid var(--gold); }
     </div>
   </div>
 </div>
-
+ 
 <script>
 // ══════════════ ФИЛЬТРАЦИЯ ТАБЛИЦЫ ══════════════
 function filterTable() {
@@ -739,7 +786,7 @@ function filterTable() {
         tr.style.display = show ? '' : 'none';
     });
 }
-
+ 
 // ══════════════ DRAG & DROP СОРТИРОВКА ══════════════
 var dragSrc = null;
 document.querySelectorAll('#tableBody tr').forEach(addDragEvents);
@@ -769,7 +816,7 @@ function saveOrder() {
     fetch('index.php', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
         body: 'action=reorder&ids=' + encodeURIComponent(JSON.stringify(ids)) });
 }
-
+ 
 // ══════════════ СКРЫТЬ / ПОКАЗАТЬ ══════════════
 function toggleHidden(id, btn) {
     fetch('index.php', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
@@ -789,7 +836,7 @@ function toggleHidden(id, btn) {
         }
     });
 }
-
+ 
 // ══════════════ УДАЛЕНИЕ ══════════════
 function confirmDelete(id, name) {
     document.getElementById('confirmText').textContent = 'Удалить «' + name + '»? Это нельзя отменить.';
@@ -805,18 +852,18 @@ function confirmDelete(id, name) {
     document.getElementById('confirmOverlay').classList.add('open');
 }
 function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('open'); }
-
+ 
 // ══════════════ РЕДАКТОР ══════════════
 function openEditor() {
     resetForm();
     document.getElementById('modalTitle').textContent = 'Добавить товар';
     document.getElementById('editorModal').classList.add('open');
 }
-
+ 
 function closeEditor() {
     document.getElementById('editorModal').classList.remove('open');
 }
-
+ 
 function resetForm() {
     var form = document.getElementById('productForm');
     form.reset();
@@ -829,7 +876,7 @@ function resetForm() {
         document.getElementById('opt_' + k).innerHTML = '';
     });
 }
-
+ 
 function editProduct(id) {
     fetch('index.php?action=get&id=' + encodeURIComponent(id))
     .then(function(r){ return r.json(); })
@@ -845,17 +892,20 @@ function editProduct(id) {
         document.getElementById('f_description').value = p.description || '';
         document.getElementById('f_popular').checked = !!p.popular;
         document.getElementById('f_hidden').checked  = !!p.hidden;
-
+ 
         // Фото
         var photoURL = p.photoURL || '';
+        var materialPhotoURL = p.materialPhotoURL || '';
+        document.getElementById('f_materialPhotoURLInput').value = materialPhotoURL;
+        updateMatPhotoPreview(materialPhotoURL);
         document.getElementById('f_photoURL').value       = photoURL;
         document.getElementById('f_photoURLInput').value  = photoURL;
         updatePhotoPreview(photoURL);
-
+ 
         // Размеры
         var sizes = (p.sizes || []).join('\n');
         document.getElementById('f_sizes').value = sizes;
-
+ 
         // Опции
         ['materials','colors','engravings','finishes','services'].forEach(function(key) {
             var items = p[key] || [];
@@ -863,11 +913,11 @@ function editProduct(id) {
                 addOption(key, item.label, item.price);
             });
         });
-
+ 
         document.getElementById('editorModal').classList.add('open');
     });
 }
-
+ 
 // ══════════════ ОПЦИИ (МАТЕРИАЛЫ И ТД) ══════════════
 function addOption(key, label, price) {
     label = label || '';
@@ -881,11 +931,11 @@ function addOption(key, label, price) {
         '<button type="button" class="btn-remove" onclick="this.parentNode.remove()"><i class="fas fa-times"></i></button>';
     container.appendChild(row);
 }
-
+ 
 function escHtml(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
+ 
 // ══════════════ ПРЕВЬЮ ФОТО ══════════════
 function previewPhoto(input) {
     if (!input.files || !input.files[0]) return;
@@ -897,13 +947,42 @@ function previewPhoto(input) {
     };
     reader.readAsDataURL(input.files[0]);
 }
-
+ 
+function previewMaterialPhoto(input) {
+    if (!input.files || !input.files[0]) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('f_materialPhotoURLInput').value = '';
+        showMatPreview(e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+ 
+function updateMatPhotoPreview(url) {
+    if (!url) { hideMatPreview(); return; }
+    var src = url.startsWith('http') || url.startsWith('/') || url.startsWith('data:') ? url : '../' + url.replace(/^\.\.\//, '');
+    showMatPreview(src);
+}
+ 
+function showMatPreview(src) {
+    var img = document.getElementById('matPhotoPreview');
+    var ph  = document.getElementById('matPhotoPlaceholder');
+    img.src = src;
+    img.classList.add('show');
+    ph.style.display = 'none';
+}
+ 
+function hideMatPreview() {
+    document.getElementById('matPhotoPreview').classList.remove('show');
+    document.getElementById('matPhotoPlaceholder').style.display = '';
+}
+ 
 function updatePhotoPreview(url) {
     if (!url) { hidePreview(); return; }
     var src = url.startsWith('http') || url.startsWith('/') || url.startsWith('data:') ? url : '../' + url.replace(/^\.\.\//, '');
     showPreview(src);
 }
-
+ 
 function showPreview(src) {
     var img  = document.getElementById('photoPreview');
     var ph   = document.getElementById('photoPlaceholder');
@@ -911,12 +990,12 @@ function showPreview(src) {
     img.classList.add('show');
     ph.style.display = 'none';
 }
-
+ 
 function hidePreview() {
     document.getElementById('photoPreview').classList.remove('show');
     document.getElementById('photoPlaceholder').style.display = '';
 }
-
+ 
 // Закрыть по клику вне модального окна
 document.getElementById('editorModal').addEventListener('click', function(e) {
     if (e.target === this) closeEditor();
@@ -925,7 +1004,7 @@ document.getElementById('confirmOverlay').addEventListener('click', function(e) 
     if (e.target === this) closeConfirm();
 });
 </script>
-
+ 
 <?php endif; ?>
 </body>
 </html>

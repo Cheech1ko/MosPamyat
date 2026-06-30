@@ -34,7 +34,7 @@ function openPhoneModal() {
         overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
     } else {
-        window.location.href = 'tel:+78412000000';
+        window.location.href = 'tel:+79362200900';
     }
 }
 
@@ -117,18 +117,20 @@ function submitForm(formId, successId) {
     }
 
     var isModal = formId === 'modalFormWrap';
-    var name, phone, interest, comment;
+    var name, phone, interest, comment, cemetery;
 
     if (isModal) {
         name = document.getElementById('mname')?.value?.trim() || '';
         phone = document.getElementById('mphone')?.value?.trim() || '';
         interest = document.getElementById('mtype')?.value || 'Не указано';
         comment = 'Заявка из модального окна';
+        cemetery = document.getElementById('mcemetery')?.value?.trim() || 'Не указано';
     } else {
         name = document.getElementById('fname')?.value?.trim() || '';
         phone = document.getElementById('fphone')?.value?.trim() || '';
         interest = document.getElementById('ftype')?.value || 'Не указано';
         comment = document.getElementById('fcomment')?.value?.trim() || 'Без комментария';
+        cemetery = document.getElementById('fcemetery')?.value?.trim() || 'Не указано';
     }
 
     var errors = [];
@@ -173,7 +175,7 @@ function submitForm(formId, successId) {
             name: name,
             phone: phone,
             interest: interest,
-            comment: comment,
+            comment: comment + '\nКладбище: ' + cemetery,
             source: isModal ? 'Модальное окно' : 'Основная форма'
         })
     })
@@ -229,6 +231,7 @@ function sendCallbackRequest() {
     var name = document.getElementById('cbname')?.value?.trim() || '';
     var phone = document.getElementById('cbphone')?.value?.trim() || '';
     var time = document.getElementById('cbtime')?.value?.trim() || 'Не указано';
+    var cemetery = document.getElementById('cbcemetery')?.value?.trim() || 'Не указано';
 
     if (!name || !phone) {
         alert('Пожалуйста, заполните имя и телефон');
@@ -243,7 +246,7 @@ function sendCallbackRequest() {
     fetch('https://formspree.io/f/mwvdpbap', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, time, source: 'Выезд менеджера' })
+        body: JSON.stringify({ name, phone, time, cemetery, source: 'Выезд менеджера' })
     })
     .then(function(response) {
         if (response.ok) {
@@ -251,6 +254,7 @@ function sendCallbackRequest() {
             document.getElementById('cbname').value = '';
             document.getElementById('cbphone').value = '';
             document.getElementById('cbtime').value = '';
+            document.getElementById('cbcemetery').value = '';
         } else {
             alert('Ошибка отправки. Попробуйте позже.');
         }

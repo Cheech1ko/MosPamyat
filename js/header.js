@@ -5,9 +5,9 @@
         siteName:  'ГраньВремени.рф',
         phone:     '+79362200900',
         phoneDisplay: '+7 (936) 2200-900',
-        tgLink:    'https://t.me/mospamyat',
+        tgLink:    'https://t.me/granvremenirf',
         waLink:    'https://wa.me/79362200900',
-        maxLink:   'https://max.ru/ваш_профиль',
+        maxLink:   'https://max.ru/u/f9LHodD0cOJ4fY0Yk90kATZwhCRAgNrlUY7v9LG-XOLpI5FXH233ff9Q-6A',
     };
 
     function getBasePath() {
@@ -107,7 +107,7 @@
             '<div class="header-inner">' +
               '<a href="' + prefix + 'index.html" class="logo">' +
                 '<div class="logo-icon">' +
-                  '<img src="' + img('моспамятьрф-04.svg') + '" alt="МосПамять.рф" ' +
+                  '<img src="' + img('logo.svg') + '" alt="МосПамять.рф" ' +
                        'style="width:100%;height:100%;object-fit:contain;display:block;" ' +
                        'onerror="this.style.display=\'none\'; this.parentElement.textContent=\'МП\'">' +
                 '</div>' +
@@ -139,7 +139,7 @@
               '</div>' +
 
               '<div class="mobile-logo-divider">' +
-                '<img src="' + img('моспамятьрф-04.svg') + '" alt="МосПамять" width="80" height="40" loading="lazy" ' +
+                '<img src="' + img('logo.svg') + '" alt="МосПамять" width="80" height="40" loading="lazy" ' +
                      'onerror="this.style.display=\'none\'">' +
               '</div>' +
 
@@ -205,7 +205,7 @@
               '<div class="footer-brand">' +
                 '<div class="logo" style="margin-bottom:14px">' +
                   '<div class="logo-icon">' +
-                    '<img src="' + img('моспамятьрф-04.svg') + '" alt="МосПамять.рф" ' +
+                    '<img src="' + img('logo.svg') + '" alt="МосПамять.рф" ' +
                          'style="width:100%;height:100%;object-fit:contain;display:block;" ' +
                          'onerror="this.style.display=\'none\'">' +
                   '</div>' +

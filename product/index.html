@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Карточка товара — МосПамять.рф</title>
+    <title>Карточка товара — ГраньВремени.рф</title>
     <meta name="description" content="Памятники из гранита и мрамора. Цена от производителя. Установка под ключ.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -969,6 +969,10 @@
                 <label>Номер телефона *</label>
                 <input type="tel" id="modalPhone" placeholder="+7 (___) ___-__-__">
             </div>
+            <div class="form-group">
+                <label style="color:var(--dark);font-weight:700;font-size:13px;font-family:'Montserrat',sans-serif;">Кладбище</label>
+                <input type="text" id="mcemetery" placeholder="Например, Хованское кладбище">
+            </div>
 
             <div class="opd-block">
                 <input type="checkbox" id="modalOpd">
@@ -1190,9 +1194,9 @@
             var fullText = 'Здравствуйте! Меня интересует ' + productText + sizeText + materialText + (priceText ? ' (' + priceText + ')' : '') + '. Хотел бы узнать подробнее.';
             var encodedText = encodeURIComponent(fullText);
 
-            var tgLink = 'https://t.me/mospamyat?text=' + encodedText;
+            var tgLink = 'https://t.me/granvremenirf?text=' + encodedText;
             var waLink = 'https://wa.me/79362200900?text=' + encodedText;
-            var maxLink = 'https://max.ru/ваш_профиль';
+            var maxLink = 'https://max.ru/u/f9LHodD0cOJ4fY0Yk90kATZwhCRAgNrlUY7v9LG-XOLpI5FXH233ff9Q-6A';
 
             var tgEl = document.querySelector('.btn-tg');
             var waEl = document.querySelector('.btn-wa');
@@ -1423,9 +1427,9 @@
             }
 
             // Базовые ссылки на мессенджеры (обновятся при выборе)
-            var tgLink = 'https://t.me/mospamyat?text=Здравствуйте!%20Меня%20интересует%20' + encodeURIComponent(product.name);
+            var tgLink = 'https://t.me/granvremenirf?text=Здравствуйте!%20Меня%20интересует%20' + encodeURIComponent(product.name);
             var waLink = 'https://wa.me/79362200900?text=Здравствуйте!%20Меня%20интересует%20' + encodeURIComponent(product.name);
-            var maxLink = 'https://max.ru/ваш_профиль';
+            var maxLink = 'https://max.ru/u/f9LHodD0cOJ4fY0Yk90kATZwhCRAgNrlUY7v9LG-XOLpI5FXH233ff9Q-6A';
 
             card.innerHTML =
                 '<div class="product-gallery">' +
@@ -1673,6 +1677,7 @@
         window.submitOrder = function() {
             var name = (el('modalName')?.value || '').trim();
             var phone = (el('modalPhone')?.value || '').trim();
+            var cemetery = (el('modalCemetery')?.value || '').trim() || 'Не указано';
             var opd = el('modalOpd');
             var product = window._currentProduct;
             var size = getSelectedSize();
@@ -1701,6 +1706,7 @@
                 'Цена: ' + (product ? fmt(product.price) + ' ₽' : '—') + '\n\n' +
                 'Клиент: ' + name + '\n' +
                 'Телефон: ' + phone;
+                'Кладбище: ' + cemetery;
 
             fetch('https://formspree.io/f/mwvdpbap', {
                 method: 'POST',

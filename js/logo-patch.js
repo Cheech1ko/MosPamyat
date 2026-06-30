@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    var LOGO_SRC = '/img/моспамятьрф-04.svg';
+    var LOGO_SRC = '/img/logo.svg';
 
     function patchLogos() {
         document.querySelectorAll('.logo-icon').forEach(function(el) {
